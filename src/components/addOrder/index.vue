@@ -1,7 +1,7 @@
 <template>
   <div class="addOrder">
     <group title="维修地点:">
-      <x-input 
+      <x-input
       placeholder="请输入商位号" 
       v-model="declareAddress"
       :show-clear="false" 

@@ -3,7 +3,7 @@
     <scroller
     :on-infinite="infinite"
     ref="my_scroller">
-      <div v-for="(item,index) in list" :key="index" class="box" @click="detail(item.id)">
+      <div v-for="(item,index) in list" :key="index" class="box">
         <div style="background-color: white;">
           <div class="header">
           <div class="left">
@@ -69,10 +69,19 @@ export default {
     this.$refs.my_scroller.resize();
   },
   methods: {
-    //详情
-    detail(id) {
-      this.$router.push({ path: "/orderDetail", query: { id } });
-    },
+    //开始维修
+   /*  repairStart(id) {
+      this.$http
+      .post("/mall/v1/maintenance/repairStart", { id:id })
+      .then(data => {
+       let p =  this.list.find((item,index)=>{
+          return item.code === id
+        })
+      })
+      .catch(e => {
+        this.$vux.toast.text(e);
+      });
+    }, */
     infinite(done) {
       if (this.list.length < this.pageSize) {
         done(true);
@@ -113,12 +122,6 @@ export default {
           break;
         case 4:
           return "已完成";
-          break;
-        case 98:
-          return "已回访";
-          break;
-        case 99:
-          return "已评价";
           break;
       }
     }

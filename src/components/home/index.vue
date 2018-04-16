@@ -16,6 +16,9 @@
       <tabbar-item :link="{path:'/home/orderList',replace:true}">
         <span slot="label">报修单列表</span>
       </tabbar-item>
+      <tabbar-item :link="{path:'/home/serviceList',replace:true}">
+        <span slot="label">维修单列表</span>
+      </tabbar-item>
       <tabbar-item :link="{path:'/home/me',replace:true}">
         <span slot="label">修改密码</span>
       </tabbar-item>

@@ -3,8 +3,8 @@ import Vue from 'vue'
 import router from './router'
 //axios 配置
 const http = axios.create({
-    //baseURL: 'http://10.0.0.181:9400',
-    baseURL: 'http://10.0.0.244:9500',
+    baseURL: 'http://10.0.0.181:9400',
+    //baseURL: 'http://10.0.0.244:9500',
     //baseURL: 'http://10.0.0.60:9500',
     timeout: 6000,
     withCredentials: true,

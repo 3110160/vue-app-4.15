@@ -92,4 +92,12 @@ const webpackConfig = {
   }
 }
 
-module.exports = vuxLoader.merge(webpackConfig, { plugins: ['vux-ui'] })
+module.exports = vuxLoader.merge(webpackConfig, { 
+  plugins: [
+    {name:'vux-ui'},
+    {
+      name: 'less-theme',
+      path: 'src/theme.less' // 相对项目根目录路径
+    }
+  ] 
+})

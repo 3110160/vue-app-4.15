@@ -4,6 +4,7 @@ import Login from '@/components/login'
 import Home from '@/components/home'
 import AddOrder from '@/components/addOrder'
 import OrderList from '@/components/orderList'
+import ServiceList from '@/components/serviceList'
 import Me from '@/components/me'
 import ServiceEnd from '@/components/serviceEnd'
 import ServiceEvaluation from '@/components/serviceEvaluation'
@@ -29,7 +30,7 @@ const router = new Router({
         title: '维修详情',
         keepAlive:true
       }
-    }, {
+    },{
       path: '/serviceEnd',
       name: 'serviceEnd',
       component: ServiceEnd,
@@ -37,7 +38,7 @@ const router = new Router({
         title: '填写维修结果',
         keepAlive:true
       }
-    }, {
+    },{
       path: '/serviceEvaluation',
       name: 'serviceEvaluation',
       component: ServiceEvaluation,
@@ -64,6 +65,14 @@ const router = new Router({
         component: OrderList,
         meta: {
           title: '报修单列表',
+          keepAlive:true
+        }
+      },{
+        path: 'serviceList',
+        name: 'serviceList',
+        component: ServiceList,
+        meta: {
+          title: '维修单列表',
           keepAlive:true
         }
       }, {
