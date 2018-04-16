@@ -1,6 +1,3 @@
-# wuzhishan
-
-> Wuzhishan
 
 ## Build Setup
 

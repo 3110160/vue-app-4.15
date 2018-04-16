@@ -3,7 +3,10 @@
     <!--内容-->
     <section class="scrollView" ref="scrollView">
       <!--子路由-->
-      <router-view/>
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
     </section>
     <!--底部导航-->
     <tabbar>
@@ -14,7 +17,7 @@
         <span slot="label">报修单列表</span>
       </tabbar-item>
       <tabbar-item :link="{path:'/home/me',replace:true}">
-        <span slot="label">我的</span>
+        <span slot="label">修改密码</span>
       </tabbar-item>
     </tabbar>
   </section>

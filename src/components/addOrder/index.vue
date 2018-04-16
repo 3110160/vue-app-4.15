@@ -129,10 +129,11 @@ export default {
         .post("/mall/v1/declaration/internal", {
           declareAddress: this.declareAddress,
           declareContent: this.declareContent,
-          projectIds: this.projectIds
+          projectIds: this.projectIds.join(',')
         })
         .then(data => {
           this.$vux.toast.text("提交成功");
+          this.$router.push({path:'/home/orderList',repalce:true})
         })
         .catch(e => {
           this.$vux.toast.text(e);

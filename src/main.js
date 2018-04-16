@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueScroller from 'vue-scroller'
 import App from './App'
+import store from './store'
 import router from './router'
 import Http from './http'
 import './main.less'
@@ -26,13 +27,14 @@ window.document.addEventListener('touchstart', function (event) {
 }, false);
 
 //axios 配置
-Vue.use(Http,router)
+Vue.prototype.$http = Http;
 
 router.push({path:'/home/addOrder',replace:true})
 
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 });

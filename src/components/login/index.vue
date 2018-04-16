@@ -55,7 +55,7 @@ export default {
           this.$vux.toast.text(e);
         });
     },
-    /* getUserInfo(){
+    getUserInfo(){
       this.$http.post('/mall/v1/menus')
         .then(data=>{
           
@@ -63,7 +63,7 @@ export default {
         }).catch(e=>{
           this.$vux.toast.text(e);
         })
-    } */
+    }
   }
 };
 </script>

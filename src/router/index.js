@@ -26,14 +26,16 @@ const router = new Router({
       name: 'orderDetail',
       component: OrderDetail,
       meta: {
-        title: '维修详情'
+        title: '维修详情',
+        keepAlive:true
       }
     }, {
       path: '/serviceEnd',
       name: 'serviceEnd',
       component: ServiceEnd,
       meta: {
-        title: '填写维修结果'
+        title: '填写维修结果',
+        keepAlive:true
       }
     }, {
       path: '/serviceEvaluation',
@@ -61,7 +63,8 @@ const router = new Router({
         name: 'orderList',
         component: OrderList,
         meta: {
-          title: '报修单列表'
+          title: '报修单列表',
+          keepAlive:true
         }
       }, {
         path: 'me',
