@@ -12,6 +12,7 @@
                 </a>
             </section>
         </div>
+        <p v-if="!!title" class="title">{{title}}</p>
     </div>
 </template>
 <script>
@@ -21,7 +22,8 @@ export default {
     max: {
       type: Number,
       default: 1
-    }
+    },
+    title:String
   },
   data() {
     return {
@@ -94,9 +96,17 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang="less" scoped>
 .vue-uploader {
-  border: 1px solid #e5e5e5;
+  display: inline-block;
+  margin-bottom: 20px;
+  p.title{
+    font-size: .24rem;
+    color: #333333;
+    text-align: center;
+    width: 80px;
+    padding-left: 10px;
+  }
 }
 .vue-uploader .file-list {
   padding: 10px 0px;
@@ -117,9 +127,10 @@ export default {
   text-align: center;
 }
 .vue-uploader .file-list .file-item img {
-  width: 80px;
-  height: 80px;
+  width: 78px;
+  height: 78px;
   border: 1px solid #ececec;
+  vertical-align: middle;
 }
 .vue-uploader .file-list .file-item .file-remove {
   position: absolute;
@@ -151,12 +162,12 @@ export default {
 }
 .vue-uploader .add {
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 78px;
+  height: 78px;
   margin-left: 10px;
   float: left;
   text-align: center;
-  line-height: 80px;
+  line-height: 78px;
   border: 1px dashed #ececec;
   font-size: 30px;
   cursor: pointer;

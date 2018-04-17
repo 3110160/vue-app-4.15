@@ -10,7 +10,7 @@
     </section>
     <!--底部导航-->
     <tabbar>
-      <tabbar-item :link="{path:'/home/addOrder',replace:true}">
+      <tabbar-item selected :link="{path:'/home/addOrder',replace:true}">
         <span slot="label">填写报修单</span>
       </tabbar-item>
       <tabbar-item :link="{path:'/home/orderList',replace:true}">

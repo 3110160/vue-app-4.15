@@ -15,16 +15,16 @@
         <div class="roomNum"><span>报修房号：</span>{{item.declareAddress}}</div>
         <div class="content">
           <span class="left">报修内容：</span>
-          <span class="right">{{item.projectNames+' '+item.declareContent}}</span>
+          <span class="right">{{item.projectNames+' '+item.declareContent||''}}</span>
         </div>
-        <div class="footer">
+        <div :class="item.status===4?'footer heighter':'footer'">
           <div class="tips">
             <span>申报人：{{item.declarant}}</span>
             <span>申请时间：{{item.declareDay+' '+item.declareTime}}</span>
           </div>
-          <!-- <div class="btn">
-            <x-button mini type="primary" @click.native="repairStart(item.code)">开始维修</x-button>
-          </div> -->
+          <div class="btn" v-if="item.status===4">
+            <x-button mini type="primary" @click.native.stop="evaluation(item.id)">评价</x-button>
+          </div>
         </div>
       </div>
     </scroller>
@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       pageNum: 1,
-      pageSize: 3,
+      pageSize:4,
       topc: 0
     };
   },
@@ -72,6 +72,10 @@ export default {
     //详情
     detail(id) {
       this.$router.push({ path: "/orderDetail", query: { id } });
+    },
+    //评价
+    evaluation(id) {
+      this.$router.push({ path: "/serviceEvaluation", query: { id } });
     },
     infinite(done) {
       if (this.list.length < this.pageSize) {

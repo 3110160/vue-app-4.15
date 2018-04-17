@@ -71,28 +71,7 @@ export default {
   },
   data() {
     return {
-      commonList: [
-        {
-          id: "1",
-          name: "讲哈就收"
-        },
-        {
-          id: "2",
-          name: "讲哈就收到哈见"
-        },{
-          id: "3",
-          name: "讲哈就收"
-        },{
-          id: "4",
-          name: "讲哈就收"
-        },{
-          id: "5",
-          name: "讲哈就收"
-        },{
-          id: "6",
-          name: "讲哈就收"
-        }
-      ],
+      commonList: [],
       projectIds: [],
       declareAddress: "",
       declareContent: ""
@@ -140,7 +119,7 @@ export default {
         });
     }
   },
-  created() {
+  activated() {
     this.getTypes();
   }
 };

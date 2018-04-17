@@ -6,6 +6,8 @@ import router from './router'
 import Http from './http'
 import './main.less'
 
+
+
 //scroller组件
 Vue.use(VueScroller)
 

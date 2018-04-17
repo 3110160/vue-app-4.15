@@ -27,7 +27,7 @@
     </checker>
   </group>
 
-  <group title="维修质量:">
+  <!-- <group title="维修质量:">
     <checker
       class="checkbox"
       v-model="value3"
@@ -39,7 +39,7 @@
       :key="index" :value="item.key">{{item.value}}</checker-item>
     </checker>
   </group>
-
+ -->
   <group title="满意度:">
     <checker
       class="checkbox"
@@ -55,7 +55,8 @@
 
   <group title="其他:">
     <x-textarea 
-    :max="120" 
+    :max="120"
+    v-model="suggest" 
     placeholder="其他维修原因"></x-textarea>
   </group>
     <x-button 
@@ -90,75 +91,91 @@ export default {
     return {
       List1: [
         {
-          key: "1",
+          key: "好",
           value: "好"
         },
         {
-          key: "2",
+          key: "一般",
           value: "一般"
         },
         {
-          key: "3",
+          key: "差",
           value: "差"
         }
       ],
       List2: [
         {
-          key: "1",
+          key: "迅速",
           value: "迅速"
         },
         {
-          key: "2",
+          key: "一般",
           value: "一般"
         },
         {
-          key: "3",
+          key: "慢",
           value: "慢"
         }
       ],
       List3: [
         {
-          key: "1",
+          key: "好",
           value: "好"
         },
         {
-          key: "2",
+          key: "一般",
           value: "一般"
         },
         {
-          key: "3",
+          key: "慢",
           value: "慢"
         }
       ],
       List4: [
         {
-          key: "1",
+          key: "满意",
           value: "满意"
         },
         {
-          key: "2",
+          key: "较满意",
           value: "较满意"
         },
         {
-          key: "3",
+          key: "一般",
           value: "一般"
         },
         {
-          key: "4",
+          key: "不满意",
           value: "不满意"
         }
       ],
-      value1: [],
-      value2: [],
+      value1: "",
+      value2: "",
       value3: [],
-      value4: []
+      value4: "",
+      suggest:''
     };
   },
   methods: {
     change(val, label) {
       console.log("change", val);
     },
-    submit() {}
+    submit(){
+      this.$http.post('/mall/v1/evaluation/revisit',{
+          declarationId:this.$route.query.id,
+          type:0,
+          attitude:this.value1,
+          satisfaction:this.value4,
+          timely:this.value2,
+          suggest:this.suggest
+      }).then(data=>{
+          this.$store.commit('changeStatus',this.$route.query.id);
+          this.$router.go(-1);
+      }).catch(e => {
+          done(true);
+          this.$vux.toast.text(e);
+        });
+    }
   }
 };
 </script>

@@ -35,7 +35,7 @@ const router = new Router({
       name: 'serviceEnd',
       component: ServiceEnd,
       meta: {
-        title: '填写维修结果',
+        title: '上传结果',
         keepAlive:true
       }
     },{

@@ -20,51 +20,51 @@
     <group title="完成节点及时间">
       <flow>
         <flow-state state="1" title="用户上报" :is-done="getStatus(detail.status,[1,2,3,4,98,99])"></flow-state>
-        <flow-line :is-done="getStatus(detail.status,[1,2,3,4,98,99])"></flow-line>
-        <flow-state state="2" title="已受理" :is-done="getStatus(detail.status,[2,3,4,98,99])"></flow-state>
         <flow-line :is-done="getStatus(detail.status,[2,3,4,98,99])"></flow-line>
-        <flow-state state="3" title="已签发" :is-done="getStatus(detail.status,[3,4,98,99])"></flow-state>
+        <flow-state state="2" title="已受理" :is-done="getStatus(detail.status,[2,3,4,98,99])"></flow-state>
         <flow-line :is-done="getStatus(detail.status,[3,4,98,99])"></flow-line>
-        <flow-state state="4" title="已完成" :is-done="getStatus(detail.status,[4,98,99])"></flow-state>
+        <flow-state state="3" title="已签发" :is-done="getStatus(detail.status,[3,4,98,99])"></flow-state>
         <flow-line :is-done="getStatus(detail.status,[4,98,99])"></flow-line>
+        <flow-state state="4" title="已完成" :is-done="getStatus(detail.status,[4,98,99])"></flow-state>
+        <flow-line :is-done="getStatus(detail.status,[98,99])"></flow-line>
         <flow-state state="5" title="已回访" :is-done="getStatus(detail.status,[98,99])"></flow-state>
       </flow>
     </group>
     <group class="verTime">
       <flow orientation="vertical" style="height:400px;width:96px">
-        <div class="box">
-          <span>14:25
-            <br>2018-03-26
+        <div class="box" v-if="getStatus(detail.status,[98,99])">
+          <span>{{detail.appraiseTime}}
+            <br>{{detail.appraiseDay}}
           </span>
-          <span class="content">电工【金航天】已维修完成</span>
+          <span class="content">{{detail.revisitName}} 已评价</span>
         </div>
-        <flow-line is-done></flow-line>
-        <div class="box">
-          <span>14:25
-            <br>2018-03-26
+        <flow-line is-done v-if="getStatus(detail.status,[98,99])"></flow-line>
+        <div class="box" v-if="getStatus(detail.status,[4,98,99])">
+          <span>{{detail.repairTime}}
+            <br>{{detail.repairDay}}
           </span>
-          <span class="content">电工【金航天】已维修完成</span>
+          <span class="content">{{detail.workGroupName+' '+detail.repairmanName}} 已维修完成</span>
         </div>
-        <flow-line is-done ></flow-line>
-        <div class="box">
-          <span>14:25
-            <br>2018-03-26
+        <flow-line is-done v-if="getStatus(detail.status,[4,98,99])"></flow-line>
+        <div class="box" v-if="getStatus(detail.status,[3,4,98,99])">
+          <span>{{detail.repairStartTime}}
+            <br>{{detail.repairStartDay}}
           </span>
-          <span class="content">电工【金航天】已维修完成</span>
+          <span class="content">{{detail.workGroupName+' '+detail.repairmanName}} 已开始维修</span>
         </div>
-        <flow-line is-done></flow-line>
-        <div class="box">
-          <span>14:25
-            <br>2018-03-26
+        <flow-line is-done v-if="getStatus(detail.status,[3,4,98,99])"></flow-line>
+        <div class="box" v-if="getStatus(detail.status,[2,3,4,98,99])">
+          <span>{{detail.disposeTime}}
+            <br>{{detail.disposeDay}}
           </span>
-          <span class="content">电工【金航天】已维修完成</span>
+          <span class="content">{{detail.disposeName}} 已完成受理</span>
         </div>
-        <flow-line is-done></flow-line>
+        <flow-line is-done v-if="getStatus(detail.status,[2,3,4,98,99])"></flow-line>
         <div class="box">
-          <span>14:25
-            <br>2018-03-26
+          <span>{{detail.declareTime}}
+            <br>{{detail.declareDay}}
           </span>
-          <span class="content">电工【金航天】已维修完成</span>
+          <span class="content">{{detail.declarant}} 发起申报</span>
         </div>
       </flow>
     </group>

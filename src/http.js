@@ -3,8 +3,8 @@ import Vue from 'vue'
 import router from './router'
 //axios 配置
 const http = axios.create({
-    baseURL: 'http://10.0.0.181:9400',
-    //baseURL: 'http://10.0.0.244:9500',
+    //baseURL: 'http://10.0.0.181:9400',
+    baseURL: 'http://10.0.0.244:9500',
     //baseURL: 'http://10.0.0.60:9500',
     timeout: 6000,
     withCredentials: true,
@@ -15,17 +15,15 @@ http.interceptors.response.use(res => {
     Vue.$vux.loading.hide();
     if (res.data.code === '0') {
         return Promise.resolve(res.data)
+    }else if(res.data.code === '800') {
+        router.push({ path: '/login', replace: true })
+        return Promise.reject('会话失效')
     } else {
         return Promise.reject(res.data.description)
     }
 }, e => {
     Vue.$vux.loading.hide();
-    if (e.response.status === 800) {
-        router.push({ path: '/login', replace: true })
-        return Promise.reject('会话失效')
-    } else {
-        return Promise.reject('网络异常')
-    }
+    return Promise.reject('网络异常')
 });
 
 // 添加请求拦截器

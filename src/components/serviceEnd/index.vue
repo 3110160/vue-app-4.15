@@ -1,22 +1,70 @@
 <template>
   <view-box class="serviceEnd">
-    <group title="上传图片">
+    <group title="上传照片(必填)">
         <uploader 
-        :max="3"
+        :max="1"
+        title="维修前照片"
         @upload="upload"></uploader>
+        <uploader 
+        :max="1"
+        title="维修后照片"
+        @upload="upload2"></uploader>
     </group>
+    <group title="其他描述(选填)">
+      <x-textarea 
+      :max="120"
+      v-model="description"
+      placeholder="其他描述"></x-textarea>
+    </group>
+    <div class="materials" v-for="(item,index) in materials" :key="index">
+      <span v-if="index!==0" class="delete" @click="todelete(index)">删除</span>
+      <group :title='`维修材料${index+1}`'>
+      <x-input 
+      title="名称:"
+      placeholder="必填" 
+      :show-clear="false" 
+      v-model="item.name"
+      placeholder-align="right"></x-input>
+      <x-input 
+      title="单价:"
+      placeholder="必填" 
+      :show-clear="false"
+      keyboard="number" 
+      v-model="item.price"
+      placeholder-align="right"></x-input>
+      <x-input 
+      title="数量:"
+      placeholder="必填" 
+      :show-clear="false"
+      keyboard="number" 
+      v-model="item.quantity"
+      placeholder-align="right"></x-input>
+      <x-input 
+      title="总价:"
+      placeholder="必填" 
+      :show-clear="false"
+      keyboard="number" 
+      v-model="item.total"
+      placeholder-align="right"></x-input>
+    </group>
+    </div>
+    <group>
+      <div class="add" @click="add">+ 添加材料信息</div>
+    </group>
+    <x-button 
+    class="btn"
+    @click.native="submit"
+    type="primary">提交</x-button>
   </view-box>
 </template>
 
 <script>
 import {
-  Checklist,
   ViewBox,
   XTextarea,
   Group,
   XButton,
-  Checker,
-  CheckerItem
+  XInput
 } from "vux";
 import Uploader from "@/common/uploadImg.vue";
 export default {
@@ -24,16 +72,99 @@ export default {
   components: {
     Uploader,
     ViewBox,
-    Group
+    XTextarea,
+    Group,
+    XButton,
+    XInput
   },
   data() {
     return {
-      httpUrls: []
+      httpUrls: [],
+      isOk:true,
+      description:'',
+      materials: [
+        {
+          name: "",
+          price: "",
+          quantity: "",
+          total: ""
+        }
+      ]
     };
   },
   methods: {
-    upload(urls){
+    upload(urls) {
       this.httpUrls = urls;
+    },
+    upload2(urls) {
+      this.httpUrls2 = urls;
+    },
+    add() {
+      this.materials.push({
+        name: "",
+        price: "",
+        quantity: "",
+        total: ""
+      });
+    },
+    todelete(index){
+      this.materials.splice(index,1)
+    },
+    submit(){
+      if(!this.httpUrls.length){
+          this.$vux.toast.text('请上传维修前照片');
+          return;
+      }
+      if(!this.httpUrls2.length){
+          this.$vux.toast.text('请上传维修后照片');
+          return;
+      }
+      for(let i=0;i<this.materials.length;i++){
+          if(this.materials[i].name===""){
+              this.$vux.toast.text(`请填写材料${i+1}的名称`);
+              this.isOk = false;
+              break;
+          }else{
+            this.isOk = true;
+          }
+          if(this.materials[i].price===""){
+              this.$vux.toast.text(`请填写材料${i+1}的单价`);
+              this.isOk = false;
+              break;
+          }else{
+            this.isOk = true;
+          }
+          if(this.materials[i].quantity===""){
+              this.$vux.toast.text(`请填写材料${i+1}的数量`);
+              this.isOk = false;
+              break;
+          }else{
+            this.isOk = true;
+          }
+          if(this.materials[i].total===""){
+              this.$vux.toast.text(`请填写材料${i+1}的总价`);
+              this.isOk = false;
+              break;
+          }else{
+            this.isOk = true;
+          }
+      }
+      if(!this.isOk){
+        return;
+      }
+      this.$http.post('/mall/v1/maintenance/repairFinish',{
+            startImg:this.httpUrls.join(''),
+            finishImg:this.httpUrls2.join(''),
+            id:this.$route.query.id,
+            description:this.description,
+            materials:this.materials
+      }).then(data=>{
+          this.$store.commit('repairEnd',this.$route.query.id)
+          this.$vux.toast.text('上传成功');
+          this.$router.go(-1)
+      }).catch(e => {
+          this.$vux.toast.text(e);
+        });
     }
   }
 };
