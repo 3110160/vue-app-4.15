@@ -151,15 +151,11 @@ export default {
       ],
       value1: "",
       value2: "",
-      value3: [],
       value4: "",
       suggest:''
     };
   },
   methods: {
-    change(val, label) {
-      console.log("change", val);
-    },
     submit(){
       this.$http.post('/mall/v1/evaluation/revisit',{
           declarationId:this.$route.query.id,

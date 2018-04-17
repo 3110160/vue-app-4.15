@@ -22,7 +22,7 @@
     <x-button 
     class="btn"
     @click.native="submit" 
-    type="primary">登陆</x-button>
+    type="primary">确定</x-button>
   </div>
 </template>
 
@@ -60,19 +60,11 @@ export default {
         })
         .then(data => {
           this.$vux.toast.text('修改成功');
+          this.$router.push({ path: "/login", replace: true });
         })
         .catch(e => {
           this.$vux.toast.text(e);
         });
-    },
-    getUserInfo(){
-      this.$http.post('/mall/v1/menus')
-        .then(data=>{
-          
-          console.log(data)
-        }).catch(e=>{
-          this.$vux.toast.text(e);
-        })
     }
   }
 };

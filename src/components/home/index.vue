@@ -3,10 +3,8 @@
     <!--内容-->
     <section class="scrollView" ref="scrollView">
       <!--子路由-->
-      <keep-alive>
-        <router-view v-if="$route.meta.keepAlive"></router-view>
-      </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive"></router-view>
+      <router-view/>
+      
     </section>
     <!--底部导航-->
     <tabbar>

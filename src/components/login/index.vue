@@ -3,7 +3,7 @@
     <group class="inputs">
       <x-input 
       placeholder="请输入员工号" 
-      :show-clear="false"
+      :show-clear="false" 
       v-model="username"
       placeholder-align="left"></x-input>
     <x-input 

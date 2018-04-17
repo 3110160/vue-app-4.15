@@ -1,6 +1,6 @@
 <template>
   <div class="addOrder">
-    <group title="维修地点:">
+    <group title="维修地点(必填)">
       <x-input
       placeholder="请输入商位号" 
       v-model="declareAddress"
@@ -8,7 +8,7 @@
       placeholder-align="left"></x-input>
     </group>
 
-    <group title="维修项目:">
+    <group title="维修项目(必选)">
     <checker
       class="checkbox"
       type="checkbox"
@@ -21,13 +21,13 @@
       :key="index" :value="item.id">{{item.name}}</checker-item>
     </checker>
     </group>
-    <group title="其他:">
+    <group title="其他(选填)">
       <x-textarea 
       :max="120"
       v-model="declareContent"
       placeholder="其他维修原因"></x-textarea>
     </group>
-    <group title="联系人:">
+    <!-- <group title="联系人:">
       <x-input 
       placeholder="请输入联系人" 
       novalidate
@@ -40,7 +40,7 @@
       novalidate
       :show-clear="false" 
       placeholder-align="left"></x-input>
-    </group>
+    </group> -->
     <x-button 
     class="btn"
     @click.native="submit" 
@@ -71,8 +71,8 @@ export default {
   },
   data() {
     return {
-      commonList: [],
       projectIds: [],
+      commonList: [],
       declareAddress: "",
       declareContent: ""
     };
