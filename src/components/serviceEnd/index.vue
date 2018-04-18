@@ -166,6 +166,22 @@ export default {
           this.$vux.toast.text(e);
         });
     }
+  },
+  //由于缓存页面 重置data
+  beforeRouteEnter(t0, from, next) {
+    next(vm => {
+      vm.httpUrls=[],
+      vm.isOk=true,
+      vm.description='',
+      vm.materials= [
+        {
+          name: "",
+          price: "",
+          quantity: "",
+          total: ""
+        }
+      ]
+    });
   }
 };
 </script>

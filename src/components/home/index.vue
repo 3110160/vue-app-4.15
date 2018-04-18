@@ -3,22 +3,25 @@
     <!--内容-->
     <section class="scrollView" ref="scrollView">
       <!--子路由-->
-      <router-view/>
-      
+      <keep-alive v-if="$route.meta.keepAlive">
+          <router-view/>
+      </keep-alive>
+      <router-view v-else/>
+    
     </section>
     <!--底部导航-->
     <tabbar>
-      <tabbar-item selected :link="{path:'/home/addOrder',replace:true}">
+      <tabbar-item :selected='$route.path==="/home/addOrder"' :link="{path:'/home/addOrder',replace:true}">
         <span slot="label">填写报修单</span>
       </tabbar-item>
-      <tabbar-item :link="{path:'/home/orderList',replace:true}">
+      <tabbar-item :selected='$route.path==="/home/orderList"' :link="{path:'/home/orderList',replace:true}">
         <span slot="label">报修单列表</span>
       </tabbar-item>
-      <tabbar-item :link="{path:'/home/serviceList',replace:true}">
+      <tabbar-item :selected='$route.path==="/home/serviceList"' :link="{path:'/home/serviceList',replace:true}">
         <span slot="label">维修单列表</span>
       </tabbar-item>
-      <tabbar-item :link="{path:'/home/me',replace:true}">
-        <span slot="label">修改密码</span>
+      <tabbar-item :selected='$route.path==="/home/me"' :link="{path:'/home/me',replace:true}">
+        <span slot="label">设置</span>
       </tabbar-item>
     </tabbar>
   </section>

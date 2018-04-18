@@ -152,26 +152,36 @@ export default {
       value1: "",
       value2: "",
       value4: "",
-      suggest:''
+      suggest: ""
     };
   },
   methods: {
-    submit(){
-      this.$http.post('/mall/v1/evaluation/revisit',{
-          declarationId:this.$route.query.id,
-          type:0,
-          attitude:this.value1,
-          satisfaction:this.value4,
-          timely:this.value2,
-          suggest:this.suggest
-      }).then(data=>{
-          this.$store.commit('changeStatus',this.$route.query.id);
+    submit() {
+      this.$http
+        .post("/mall/v1/evaluation/appraise", {
+          declarationId: this.$route.query.id,
+          attitude: this.value1,
+          satisfaction: this.value4,
+          timely: this.value2,
+          suggest: this.suggest
+        })
+        .then(data => {
+          this.$store.commit("changeStatus", this.$route.query.id);
           this.$router.go(-1);
-      }).catch(e => {
+        })
+        .catch(e => {
           done(true);
           this.$vux.toast.text(e);
         });
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.value1 = "";
+      vm.value2 = "";
+      vm.value4 = "";
+      vm.suggest = "";
+    });
   }
 };
 </script>

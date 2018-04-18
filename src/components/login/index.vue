@@ -48,23 +48,34 @@ export default {
           password: this.password
         })
         .then(data => {
-          localStorage.setItem('wuzhishanlogin','true');
+          localStorage.setItem("wuzhishanlogin", "true");
           this.$router.push({ path: "/home/addOrder", replace: true });
         })
         .catch(e => {
           this.$vux.toast.text(e);
         });
     },
-    getUserInfo(){
-      this.$http.post('/mall/v1/menus')
-        .then(data=>{
-          localStorage.setItem('wuzhishanlogin','true');
+    getUserInfo() {
+      this.$http
+        .post("/mall/v1/menus")
+        .then(data => {
+          localStorage.setItem("wuzhishanlogin", "true");
           this.$router.push({ path: "/home/addOrder", replace: true });
-          console.log(data)
-        }).catch(e=>{
-          this.$vux.toast.text(e);
+          console.log(data);
         })
+        .catch(e => {
+          this.$vux.toast.text(e);
+        });
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    console.log(from.path)
+    next(() => {
+      if(from.path!=='/login'){
+        console.log(1)
+          window.location.reload();
+      }
+    });
   }
 };
 </script>

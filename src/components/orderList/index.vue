@@ -3,6 +3,10 @@
     <scroller
     :on-infinite="infinite"
     ref="my_scroller">
+    <div v-if="nodata" class="noData">
+      <img width="50%" src="./img/nodata@2x.png" alt="/">
+      <p>没有新的申报单哦～</p>
+    </div>
       <div v-for="(item,index) in list" :key="index" class="box" @click="detail(item.id)">
         <div style="background-color: white;">
           <div class="header">
@@ -42,6 +46,7 @@ export default {
     return {
       pageNum: 1,
       pageSize:4,
+      nodata:false,
       topc: 0
     };
   },
@@ -52,17 +57,22 @@ export default {
   },
   mounted() {
     this.$refs.my_scroller.resize();
+    this.nodata = false;
     this.$http
       .post("/mall/v1/currentUser/declarations", {
         pageNum: this.pageNum,
         pageSize: this.pageSize
       })
       .then(data => {
-        this.pageNum++;
-        this.$store.commit("setList", data.result.list);
+        if(data.result.list){
+          this.pageNum++;
+          this.$store.commit("setList", data.result.list);
+        }else{
+          this.nodata = true;
+        }
       })
       .catch(e => {
-        this.$vux.toast.text(e);
+        e&&this.$vux.toast.text(e);
       });
   },
   activated() {
@@ -130,6 +140,7 @@ export default {
   beforeRouteEnter(to, from, next) {
     if (from.path == "/home/addOrder") {
       next(vm => {
+        vm.nodata = false;
         vm.pageNum = 1;
         vm.$refs.my_scroller.scrollTo(0, 0);
         vm.$http
@@ -140,11 +151,13 @@ export default {
           .then(data => {
             if (data.result.list) {
               vm.pageNum = 2;
+            }else{
+              vm.nodata = true;
             }
             vm.$store.commit("setList", data.result.list || []);
           })
           .catch(e => {
-            vm.$vux.toast.text(e);
+            e&&vm.$vux.toast.text(e);
           });
       });
     } else {

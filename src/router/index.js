@@ -4,6 +4,7 @@ import Login from '@/components/login'
 import Home from '@/components/home'
 import AddOrder from '@/components/addOrder'
 import OrderList from '@/components/orderList'
+import AddOrderOuter from '@/components/addOrderOuter'
 import ServiceList from '@/components/serviceList'
 import Me from '@/components/me'
 import ServiceEnd from '@/components/serviceEnd'
@@ -13,7 +14,7 @@ import OrderDetail from '@/components/orderDetail'
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
+  mode: 'hash',
   routes: [
     {
       path: '/login',
@@ -21,6 +22,13 @@ const router = new Router({
       component: Login,
       meta: {
         title: '登陆'
+      }
+    },{
+      path: '/addOrderOuter',
+      name: 'addOrderOuter',
+      component: AddOrderOuter,
+      meta: {
+        title: '填写报修单'
       }
     }, {
       path: '/orderDetail',
@@ -43,14 +51,16 @@ const router = new Router({
       name: 'serviceEvaluation',
       component: ServiceEvaluation,
       meta: {
-        title: '用户评价'
+        title: '用户评价',
+        keepAlive:true
       }
     }, {
       path: '/home',
       name: 'home',
       component: Home,
       meta: {
-        title: '填写报修单'
+        title: '填写报修单',
+        keepAlive:true
       },
       children: [{
         path: 'addOrder',
@@ -80,7 +90,8 @@ const router = new Router({
         name: 'me',
         component: Me,
         meta: {
-          title: '个人中心'
+          title: '个人中心',
+          keepAlive:true
         }
       }]
     }
@@ -98,7 +109,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title
   }
-  if (to.path !== '/login' & !isLogin) {
+  if (to.path !== '/login' && !isLogin&&to.path !== '/addOrderOuter') {
     next({ path: '/login', replace: true })
   } else {
     next()

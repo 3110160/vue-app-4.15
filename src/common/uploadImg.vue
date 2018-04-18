@@ -16,14 +16,13 @@
     </div>
 </template>
 <script>
-
 export default {
   props: {
     max: {
       type: Number,
       default: 1
     },
-    title:String
+    title: String
   },
   data() {
     return {
@@ -35,7 +34,7 @@ export default {
     upload(item) {
       this.$http
         .post("/mall/v1/uploadFile", {
-          file: item.src.split(',')[1],
+          file: item.src.split(",")[1],
           fileName: item.name
         })
         .then(data => {
@@ -54,12 +53,12 @@ export default {
     },
     fileChanged() {
       let list = this.$refs.file.files,
-      len = Object.keys(list).length;
-      if(len>this.max){
-          this.$vux.toast.text(`最多只能上传${this.max}张`);
+        len = Object.keys(list).length;
+      if (len > this.max) {
+        this.$vux.toast.text(`最多只能上传${this.max}张`);
       }
       for (let i = 0; i < list.length; i++) {
-        if (!this.isContain(list[i])&&i<this.max) {
+        if (!this.isContain(list[i]) && i < this.max) {
           const item = {
             name: list[i].name,
             size: list[i].size,
@@ -81,11 +80,37 @@ export default {
     html5Reader(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => {
-          resolve(reader);
+        reader.readAsDataURL(file);
+        reader.onload = function(){
+          let canvas = document.createElement("canvas"),
+            ctx = canvas.getContext("2d"),
+            image = new Image();
+          image.src = this.result;
+          image.onload = function() {
+            let cw = image.width,
+              ch = image.height,
+              w = image.width,
+              h = image.height;
+            canvas.width = w;
+            canvas.height = h;
+            if (cw > 400 && cw > ch) {
+              w = 400;
+              h = 400 * ch / cw;
+              canvas.width = w;
+              canvas.height = h;
+            }
+            if (ch > 400 && ch > cw) {
+              h = 400;
+              w = 400 * cw / ch;
+              canvas.width = w;
+              canvas.height = h;
+            }
+            ctx.drawImage(image, 0, 0, w, h);
+            canvas.toDataURL("image/jpeg", 0.6);
+            resolve(reader);
+          };
         };
         reader.onerror = reject;
-        reader.readAsDataURL(file);
       });
     },
     isContain(file) {
@@ -100,8 +125,8 @@ export default {
 .vue-uploader {
   display: inline-block;
   margin-bottom: 20px;
-  p.title{
-    font-size: .24rem;
+  p.title {
+    font-size: 0.24rem;
     color: #333333;
     text-align: center;
     width: 80px;
@@ -205,13 +230,13 @@ export default {
   cursor: pointer;
 }
 input[type="file"] {
-    position: absolute;
-	left:0;
-	top:0;
-	bottom: 0;
-	right:0;
-	width:100%;
-	height:100%;
-	opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
 }
 </style>

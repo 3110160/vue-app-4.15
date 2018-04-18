@@ -19,11 +19,9 @@
   
     <group title="完成节点及时间">
       <flow>
-        <flow-state state="1" title="用户上报" :is-done="getStatus(detail.status,[1,2,3,4,98,99])"></flow-state>
+        <flow-state state="1" title="用户上报" :is-done="getStatus(detail.status,[0,1,2,3,4,98,99])"></flow-state>
         <flow-line :is-done="getStatus(detail.status,[2,3,4,98,99])"></flow-line>
         <flow-state state="2" title="已受理" :is-done="getStatus(detail.status,[2,3,4,98,99])"></flow-state>
-        <flow-line :is-done="getStatus(detail.status,[3,4,98,99])"></flow-line>
-        <flow-state state="3" title="已签发" :is-done="getStatus(detail.status,[3,4,98,99])"></flow-state>
         <flow-line :is-done="getStatus(detail.status,[4,98,99])"></flow-line>
         <flow-state state="4" title="已完成" :is-done="getStatus(detail.status,[4,98,99])"></flow-state>
         <flow-line :is-done="getStatus(detail.status,[98,99])"></flow-line>
@@ -88,7 +86,7 @@ export default {
       detail:{}
     }
   },
-  activated() {
+  created() {
     let id = this.$route.query.id;
     this.$http
       .get(`/mall/v1/declaration/${id}`)
@@ -102,9 +100,10 @@ export default {
   methods:{
     //状态判断
       getStatus(state,range=[]){
-        return range.find(item=>{
-          return item == state;
+        let p = range.find(item=>{
+          return item === state;
         })
+        return p+2?true:false;
       }
     },
 };

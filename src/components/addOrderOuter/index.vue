@@ -33,20 +33,22 @@
       v-model="declareContent"
       placeholder="其他维修原因"></x-textarea>
     </group>
-    <!-- <group title="联系人:">
+    <group title="联系人(必填)">
       <x-input 
       placeholder="请输入联系人" 
       novalidate
+      v-model="declarant"
       :show-clear="false" 
       placeholder-align="left"></x-input>
     </group>
-    <group title="联系方式:">
+    <group title="联系方式(必填)">
       <x-input 
       placeholder="请输入联系方式" 
       novalidate
+      v-model="contact"
       :show-clear="false" 
       placeholder-align="left"></x-input>
-    </group> -->
+    </group>
     <x-button 
     class="btn"
     @click.native="submit" 
@@ -65,6 +67,7 @@ import {
   Checker,
   CheckerItem
 } from "vux";
+import { setTimeout, clearTimeout } from 'timers';
 export default {
   name: "AddOrder",
   components: {
@@ -83,6 +86,8 @@ export default {
       commonList: [],
       httpUrls: [],
       declareAddress: "",
+      contact: "",
+      declarant: "",
       declareContent: ""
     };
   },
@@ -96,8 +101,8 @@ export default {
     //todo 获取维修项目
     getTypes() {
       this.$http
-        .post("/mall/v1/combo/maintenanceProjects", {
-          buildingCode: "rrrrr"
+        .post("/mall/v1/wechat/combo/maintenanceProjects", {
+          buildingCode: this.$route.query.code || ''
         })
         .then(data => {
           this.commonList = data.result;
@@ -116,19 +121,34 @@ export default {
         this.$vux.toast.text("请填选择维修项目");
         return;
       }
+      if (this.declarant == "") {
+        this.$vux.toast.text("请填写联系人");
+        return;
+      }
+      if (this.contact == "") {
+        this.$vux.toast.text("请填写联系方式");
+        return;
+      }
       this.$http
-        .post("/mall/v1/declaration/internal", {
+        .post("/mall/v1/declaration/external", {
           declareAddress: this.declareAddress,
+          buildingCode: this.$route.query.code,
           declareContent: this.declareContent,
+          declarant: this.declarant,
+          contact: this.contact,
           picture: this.httpUrls.join(''),
           projectIds: this.projectIds.join(',')
         })
         .then(data => {
           this.$vux.toast.text("提交成功");
-          this.$router.push({path:'/home/orderList',repalce:true})
+          let timer = setTimeout(()=>{
+              location.reload();
+              clearTimeout(timer)
+          },1000)    
+          
         })
         .catch(e => {
-          this.$vux.toast.text(e);
+          e&&this.$vux.toast.text(e);
         });
     }
   },

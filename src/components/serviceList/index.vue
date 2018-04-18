@@ -3,6 +3,10 @@
     <scroller
     :on-infinite="infinite"
     ref="my_scroller">
+    <div v-if="nodata" class="noData">
+      <img width="50%" src="./img/nodata@2x.png" alt="/">
+      <p>没有新的维修单哦～</p>
+    </div>
       <div v-for="(item,index) in list" :key="index" class="box">
         <div style="background-color: white;">
           <div class="header">
@@ -42,7 +46,8 @@ export default {
   data() {
     return {
       pageNum: 1,
-      pageSize:4,
+      pageSize: 4,
+      nodata: false,
       topc: 0
     };
   },
@@ -52,25 +57,46 @@ export default {
     })
   },
   mounted() {
+    this.nodata = false;
+    this.pageNum = 1;
+    this.$http
+      .post("/mall/v1/maintenances", {
+        pageNum: 1,
+        pageSize: this.pageSize
+      })
+      .then(data => {
+        if (data.result.list) {
+          this.pageNum = 2;
+        } else {
+          this.nodata = true;
+        }
+        this.$store.commit("setServiceList", data.result.list || []);
+      })
+      .catch(e => {
+        if (!e) {
+          this.nodata = true;
+        }
+        e && this.$vux.toast.text(e);
+      });
   },
   activated() {
     this.$refs.my_scroller.resize();
-    this.$refs.my_scroller.scrollTo(0, this.topc,false);
+    this.$refs.my_scroller.scrollTo(0, this.topc, false);
   },
   methods: {
     //开始维修
     repairStart(id) {
       this.$http
-      .post("/mall/v1/maintenance/repairStart", {id})
-      .then(data => {
-       this.$store.commit('repairStart',id)
-      })
-      .catch(e => {
-        this.$vux.toast.text(e);
-      });
+        .post("/mall/v1/maintenance/repairStart", { id })
+        .then(data => {
+          this.$store.commit("repairStart", id);
+        })
+        .catch(e => {
+          this.$vux.toast.text(e);
+        });
     },
     //结束维修
-    endRepair(id){
+    endRepair(id) {
       this.$router.push({ path: "/serviceEnd", query: { id } });
     },
     infinite(done) {
@@ -93,7 +119,7 @@ export default {
         })
         .catch(e => {
           done(true);
-          this.$vux.toast.text(e);
+          e && this.$vux.toast.text(e);
         });
     },
     //获取状态
@@ -113,25 +139,6 @@ export default {
           break;
       }
     }
-  },
-  beforeRouteEnter(to, from, next) {
-      next(vm => {
-        vm.pageNum = 1;
-        vm.$http
-          .post("/mall/v1/maintenances",{
-            pageNum: 1,
-            pageSize: vm.pageSize
-          })
-          .then(data => {
-            if (data.result.list) {
-              vm.pageNum = 2;
-            }
-            vm.$store.commit("setServiceList", data.result.list || []);
-          })
-          .catch(e => {
-            vm.$vux.toast.text(e);
-          });
-      });
   },
   beforeRouteLeave(to, from, next) {
     this.topc = this.$refs.my_scroller.getPosition().top;

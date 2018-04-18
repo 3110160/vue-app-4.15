@@ -22,7 +22,11 @@
     <x-button 
     class="btn"
     @click.native="submit" 
-    type="primary">确定</x-button>
+    type="primary">确定修改</x-button>
+    <x-button 
+    class="btn"
+    @click.native="logout" 
+    type="warn">退出登陆</x-button>
   </div>
 </template>
 
@@ -45,11 +49,15 @@ export default {
   },
   methods: {
     submit() {
-      if (this.oldPassword == "" || this.newPassword == ""||this.newPasswordAgain == "") {
+      if (
+        this.oldPassword == "" ||
+        this.newPassword == "" ||
+        this.newPasswordAgain == ""
+      ) {
         this.$vux.toast.text("输入框不能为空");
         return;
       }
-      if(this.newPassword!==this.newPasswordAgain){
+      if (this.newPassword !== this.newPasswordAgain) {
         this.$vux.toast.text("两次密码不一致");
         return;
       }
@@ -59,7 +67,20 @@ export default {
           oldPassword: this.oldPassword
         })
         .then(data => {
-          this.$vux.toast.text('修改成功');
+          this.$vux.toast.text("修改成功");
+          localStorage.removeItem('wuzhishanlogin')
+          this.$router.push({ path: "/login", replace: true });
+        })
+        .catch(e => {
+          this.$vux.toast.text(e);
+        });
+    },
+    logout() {
+      this.$http
+        .get("/mall/v1/logout")
+        .then(data => {
+          this.$vux.toast.text("退出成功");
+          localStorage.removeItem('wuzhishanlogin')
           this.$router.push({ path: "/login", replace: true });
         })
         .catch(e => {

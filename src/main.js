@@ -30,8 +30,9 @@ window.document.addEventListener('touchstart', function (event) {
 
 //axios 配置
 Vue.prototype.$http = Http;
-
-router.push({path:'/home/addOrder',replace:true})
+if(window.location.hash.indexOf('addOrderOuter')<0){
+  router.push({path:'/home/addOrder',replace:true})
+}
 
 new Vue({
   el: '#app',
