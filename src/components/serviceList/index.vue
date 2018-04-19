@@ -65,17 +65,15 @@ export default {
         pageSize: this.pageSize
       })
       .then(data => {
-        if (data.result.list) {
+        if (data&&data.result.list) {
           this.pageNum = 2;
+          this.nodata = false;
         } else {
           this.nodata = true;
         }
         this.$store.commit("setServiceList", data.result.list || []);
       })
       .catch(e => {
-        if (!e) {
-          this.nodata = true;
-        }
         e && this.$vux.toast.text(e);
       });
   },

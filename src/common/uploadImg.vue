@@ -39,7 +39,7 @@ export default {
         })
         .then(data => {
           this.files.push(item);
-          this.httpUrls.push(data.result);
+          this.httpUrls.push(data);
           this.$emit("upload", this.httpUrls);
         })
         .catch(e => {
@@ -66,7 +66,7 @@ export default {
           };
           this.html5Reader(list[i])
             .then(data => {
-              item.src = data.result;
+              item.src = data;
               this.upload(item);
             })
             .catch(e => {
@@ -81,16 +81,16 @@ export default {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = function(){
+        reader.onload = function() {
           let canvas = document.createElement("canvas"),
             ctx = canvas.getContext("2d"),
             image = new Image();
           image.src = this.result;
           image.onload = function() {
-            let cw = image.width,
+          let cw = image.width,
               ch = image.height,
-              w = image.width,
-              h = image.height;
+               w = image.width,
+               h = image.height;
             canvas.width = w;
             canvas.height = h;
             if (cw > 400 && cw > ch) {
@@ -106,8 +106,8 @@ export default {
               canvas.height = h;
             }
             ctx.drawImage(image, 0, 0, w, h);
-            canvas.toDataURL("image/jpeg", 0.6);
-            resolve(reader);
+            let base64 = canvas.toDataURL("image/jpeg", 0.7);
+            resolve(base64);
           };
         };
         reader.onerror = reject;

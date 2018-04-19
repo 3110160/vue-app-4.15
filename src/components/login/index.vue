@@ -23,6 +23,7 @@
 <script>
 import { XInput, Group, XButton } from "vux";
 import axios from "axios";
+import { setTimeout } from "timers";
 export default {
   name: "login",
   components: {
@@ -67,15 +68,6 @@ export default {
           this.$vux.toast.text(e);
         });
     }
-  },
-  beforeRouteEnter(to, from, next) {
-    console.log(from.path)
-    next(() => {
-      if(from.path!=='/login'){
-        console.log(1)
-          window.location.reload();
-      }
-    });
   }
 };
 </script>

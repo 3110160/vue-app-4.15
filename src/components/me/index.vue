@@ -80,6 +80,7 @@ export default {
         .get("/mall/v1/logout")
         .then(data => {
           this.$vux.toast.text("退出成功");
+          window.location.reload();
           localStorage.removeItem('wuzhishanlogin')
           this.$router.push({ path: "/login", replace: true });
         })

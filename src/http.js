@@ -3,9 +3,10 @@ import Vue from 'vue'
 import router from './router'
 //axios 配置
 const http = axios.create({
-    baseURL: 'http://10.0.0.181:9400',
+    //baseURL: 'http://10.0.0.181:9400',
     //baseURL: 'http://10.0.0.244:9500',
     //baseURL: 'http://10.0.0.60:9500',
+    baseURL: 'http://repairbkd.onccc.com',
     timeout: 10000,
     withCredentials: true,
     headers: { 'content-type': 'application/json' }
@@ -19,9 +20,9 @@ http.interceptors.response.use(res => {
         router.push({ path: '/login', replace: true })
         return Promise.reject('会话失效')
     }else if(res.data.code === '401') {
-        return Promise.reject(res.data.description)
+        return Promise.reject(res.data.description || "出错了～")
     } else {
-        return Promise.reject(res.data.description)
+        return Promise.reject(res.data.description || "出错了～")
     }
 }, e => {
     Vue.$vux.loading.hide();

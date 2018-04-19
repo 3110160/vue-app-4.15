@@ -23,7 +23,7 @@ const router = new Router({
       meta: {
         title: '登陆'
       }
-    },{
+    }, {
       path: '/addOrderOuter',
       name: 'addOrderOuter',
       component: AddOrderOuter,
@@ -36,23 +36,23 @@ const router = new Router({
       component: OrderDetail,
       meta: {
         title: '维修详情',
-        keepAlive:true
+        keepAlive: true
       }
-    },{
+    }, {
       path: '/serviceEnd',
       name: 'serviceEnd',
       component: ServiceEnd,
       meta: {
         title: '上传结果',
-        keepAlive:true
+        keepAlive: true
       }
-    },{
+    }, {
       path: '/serviceEvaluation',
       name: 'serviceEvaluation',
       component: ServiceEvaluation,
       meta: {
         title: '用户评价',
-        keepAlive:true
+        keepAlive: true
       }
     }, {
       path: '/home',
@@ -60,7 +60,7 @@ const router = new Router({
       component: Home,
       meta: {
         title: '填写报修单',
-        keepAlive:true
+        keepAlive: true
       },
       children: [{
         path: 'addOrder',
@@ -75,15 +75,15 @@ const router = new Router({
         component: OrderList,
         meta: {
           title: '报修单列表',
-          keepAlive:true
+          keepAlive: true
         }
-      },{
+      }, {
         path: 'serviceList',
         name: 'serviceList',
         component: ServiceList,
         meta: {
           title: '维修单列表',
-          keepAlive:true
+          keepAlive: true
         }
       }, {
         path: 'me',
@@ -91,7 +91,7 @@ const router = new Router({
         component: Me,
         meta: {
           title: '个人中心',
-          keepAlive:true
+          keepAlive: true
         }
       }]
     }
@@ -109,7 +109,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title
   }
-  if (to.path !== '/login' && !isLogin&&to.path !== '/addOrderOuter') {
+  if (to.path !== '/login' && !isLogin && to.path !== '/addOrderOuter') {
     next({ path: '/login', replace: true })
   } else {
     next()

@@ -57,7 +57,7 @@
     <x-textarea 
     :max="120"
     v-model="suggest" 
-    placeholder="其他维修原因"></x-textarea>
+    placeholder="其他建议"></x-textarea>
   </group>
     <x-button 
     class="btn"
