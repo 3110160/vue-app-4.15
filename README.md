@@ -16,6 +16,8 @@ npm run build --report
 
 #使用vux UI库 一个公众h5项目，比较完善的vue搭建  by --xzc
 
+#demo
+https://3110160.github.io/vue-app-4.15/dist/index.html
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
