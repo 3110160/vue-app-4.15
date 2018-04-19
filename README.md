@@ -18,8 +18,6 @@ npm run build --report
 
 #demo
 https://3110160.github.io/vue-app-4.15/dist/index.html
-![image](https://3110160.github.io/vue-app-4.15/1524125685.png)
-
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+![image](https://3110160.github.io/vue-app-4.15/1524125685.png)
