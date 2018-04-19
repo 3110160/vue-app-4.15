@@ -18,7 +18,7 @@ npm run build --report
 
 #demo
 https://3110160.github.io/vue-app-4.15/dist/index.html
-![image](./1524125685.png)
+![image](https://3110160.github.io/vue-app-4.15/1524125685.png)
 
 ```
 
