@@ -142,7 +142,8 @@ export default {
         .then(data => {
           this.$vux.toast.text("提交成功");
           let timer = setTimeout(()=>{
-              location.reload();
+              //安卓手机 reload() 有缓存问题
+              window.location.reload(location.href+'?time='+((new Date()).getTime()));
               clearTimeout(timer)
           },1000)    
           
