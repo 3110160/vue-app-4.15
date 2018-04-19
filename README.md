@@ -16,4 +16,6 @@ npm run build --report
 
 #使用vux UI库 一个公众h5项目，比较完善的vue搭建  by --xzc
 
+https://3110160.github.io/vue-app-4.15/dist/index.html
+
 ```
