@@ -6,7 +6,7 @@ const http = axios.create({
     //baseURL: 'http://10.0.0.181:9400',
     //baseURL: 'http://10.0.0.244:9500',
     //baseURL: 'http://10.0.0.60:9500',
-    baseURL: 'https://repairbkd.onccc.com',
+    baseURL: 'http://repairbkd.onccc.com',
     timeout: 10000,
     withCredentials: true,
     headers: { 'content-type': 'application/json' }
