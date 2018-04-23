@@ -1,6 +1,6 @@
 <template>
-  <view-box class="orderDetail">
-    
+  <div class="orderDetail">
+    <div class="home" @click="$router.push({path:'/home',replace:true})">首页</div>
     <div class="detailebox">
       <div>
       <div class="header">
@@ -19,17 +19,17 @@
   
     <group title="完成节点及时间">
       <flow>
-        <flow-state state="1" title="用户上报" :is-done="getStatus(detail.status,[0,1,2,3,4,98,99])"></flow-state>
+        <flow-state  title="用户上报" :is-done="getStatus(detail.status,[0,1,2,3,4,98,99])"></flow-state>
         <flow-line :is-done="getStatus(detail.status,[2,3,4,98,99])"></flow-line>
-        <flow-state state="2" title="已受理" :is-done="getStatus(detail.status,[2,3,4,98,99])"></flow-state>
+        <flow-state  title="已受理" :is-done="getStatus(detail.status,[2,3,4,98,99])"></flow-state>
         <flow-line :is-done="getStatus(detail.status,[4,98,99])"></flow-line>
-        <flow-state state="4" title="已完成" :is-done="getStatus(detail.status,[4,98,99])"></flow-state>
+        <flow-state  title="已完成" :is-done="getStatus(detail.status,[4,98,99])"></flow-state>
         <flow-line :is-done="getStatus(detail.status,[98,99])"></flow-line>
-        <flow-state state="5" title="已回访" :is-done="getStatus(detail.status,[98,99])"></flow-state>
+        <flow-state  title="已回访" :is-done="getStatus(detail.status,[98,99])"></flow-state>
       </flow>
     </group>
     <group class="verTime">
-      <flow orientation="vertical" style="height:400px;width:96px">
+      <flow orientation="vertical" :style='`height:${height};width:96px`'>
         <div class="box" v-if="getStatus(detail.status,[98,99])">
           <span>{{detail.appraiseTime}}
             <br>{{detail.appraiseDay}}
@@ -66,7 +66,7 @@
         </div>
       </flow>
     </group>
-  </view-box>
+  </div>
 </template>
 
 <script>
@@ -86,16 +86,40 @@ export default {
       detail:{}
     }
   },
-  created() {
+  activated() {
     let id = this.$route.query.id;
     this.$http
-      .get(`/mall/v1/declaration/${id}`)
+      .get(`/mall/v1/wechat/declaration/${id}`)
       .then(data => {
         this.detail = data.result;
       })
       .catch(e => {
         this.$vux.toast.text(e);
       });
+  },
+  computed:{
+    height(){
+        switch(this.detail.status){
+          case 0:
+          return 'auto';
+          break;
+          case 2:
+          return '200px';
+          break;
+          case 3:
+          return '284px';
+          break;
+          case 4:
+          return '400px';
+          break;
+          case 98:
+          return '400px';
+          break;
+          case 99:
+          return '400px';
+          break;
+        }
+    }
   },
   methods:{
     //状态判断

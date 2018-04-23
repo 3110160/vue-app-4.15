@@ -21,27 +21,27 @@
       <group :title='`维修材料${index+1}`'>
       <x-input 
       title="名称:"
-      placeholder="必填" 
+      placeholder="选填" 
       :show-clear="false" 
       v-model="item.name"
       placeholder-align="right"></x-input>
       <x-input 
       title="单价:"
-      placeholder="必填" 
+      placeholder="选填" 
       :show-clear="false"
       keyboard="number" 
       v-model="item.price"
       placeholder-align="right"></x-input>
       <x-input 
       title="数量:"
-      placeholder="必填" 
+      placeholder="选填" 
       :show-clear="false"
       keyboard="number" 
       v-model="item.quantity"
       placeholder-align="right"></x-input>
       <x-input 
       title="总价:"
-      placeholder="必填" 
+      placeholder="选填" 
       :show-clear="false"
       keyboard="number" 
       v-model="item.total"
@@ -119,7 +119,7 @@ export default {
           this.$vux.toast.text('请上传维修后照片');
           return;
       }
-      for(let i=0;i<this.materials.length;i++){
+     /*  for(let i=0;i<this.materials.length;i++){
           if(this.materials[i].name===""){
               this.$vux.toast.text(`请填写材料${i+1}的名称`);
               this.isOk = false;
@@ -151,7 +151,7 @@ export default {
       }
       if(!this.isOk){
         return;
-      }
+      } */
       this.$http.post('/mall/v1/maintenance/repairFinish',{
             startImg:this.httpUrls.join(''),
             finishImg:this.httpUrls2.join(''),
@@ -171,7 +171,8 @@ export default {
   beforeRouteEnter(t0, from, next) {
     next(vm => {
       vm.httpUrls=[],
-      vm.isOk=true,
+      vm.httpUrls2=[],
+      //vm.isOk=true,
       vm.description='',
       vm.materials= [
         {

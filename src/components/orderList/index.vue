@@ -138,7 +138,7 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next) {
-    if (from.path == "/home/addOrder") {
+    if (from.path == "/addOrder") {
       next(vm => {
         vm.nodata = false;
         vm.pageNum = 1;

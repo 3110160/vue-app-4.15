@@ -7,7 +7,7 @@
             </section>
             <section v-if="files.length<max" class="file-item">
                 <a class="add" herp="javascript:;">
-                    <input type="file" accept="image/*" @change="fileChanged" ref="file" multiple="multiple">
+                    <input type="file" accept="image/*" @change="fileChanged" ref="file">
                     <span>+</span>
                 </a>
             </section>
@@ -29,6 +29,14 @@ export default {
       files: [],
       httpUrls: []
     };
+  },
+  created(){
+    this.httpUrls=[],
+    this.files=[]
+  },
+  activated(){
+    this.httpUrls=[],
+    this.files=[]
   },
   methods: {
     upload(item) {

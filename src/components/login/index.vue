@@ -50,19 +50,7 @@ export default {
         })
         .then(data => {
           localStorage.setItem("wuzhishanlogin", "true");
-          this.$router.push({ path: "/home/addOrder", replace: true });
-        })
-        .catch(e => {
-          this.$vux.toast.text(e);
-        });
-    },
-    getUserInfo() {
-      this.$http
-        .post("/mall/v1/menus")
-        .then(data => {
-          localStorage.setItem("wuzhishanlogin", "true");
-          this.$router.push({ path: "/home/addOrder", replace: true });
-          console.log(data);
+          this.$router.push({ path: "/home", replace: true });
         })
         .catch(e => {
           this.$vux.toast.text(e);

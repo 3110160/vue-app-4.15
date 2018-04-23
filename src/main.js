@@ -14,9 +14,10 @@ Vue.use(VueScroller)
 Vue.config.productionTip = false;
 
 //vux 全局组件注册
-import  { ToastPlugin,LoadingPlugin } from 'vux'
+import  { ToastPlugin,LoadingPlugin,ConfirmPlugin } from 'vux'
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
+Vue.use(ConfirmPlugin)
 
 //解决移动端 300ms延迟
 const FastClick = require('fastclick')
@@ -30,9 +31,6 @@ window.document.addEventListener('touchstart', function (event) {
 
 //axios 配置
 Vue.prototype.$http = Http;
-if(window.location.hash.indexOf('addOrderOuter')<0){
-  router.push({path:'/home/addOrder',replace:true})
-}
 
 new Vue({
   el: '#app',

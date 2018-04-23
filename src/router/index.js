@@ -7,6 +7,7 @@ import OrderList from '@/components/orderList'
 import AddOrderOuter from '@/components/addOrderOuter'
 import ServiceList from '@/components/serviceList'
 import Me from '@/components/me'
+import PasswardChange from '@/components/passwardChange'
 import ServiceEnd from '@/components/serviceEnd'
 import ServiceEvaluation from '@/components/serviceEvaluation'
 import OrderDetail from '@/components/orderDetail'
@@ -59,42 +60,51 @@ const router = new Router({
       name: 'home',
       component: Home,
       meta: {
-        title: '填写报修单',
+        title: '首页'
+      }
+    },
+    {
+      path: '/addOrder',
+      name: 'addOrder',
+      component: AddOrder,
+      meta: {
+        title: '填写报修单'
+      }
+    }, {
+      path: '/orderList',
+      name: 'orderList',
+      component: OrderList,
+      meta: {
+        title: '报修单列表',
         keepAlive: true
-      },
-      children: [{
-        path: 'addOrder',
-        name: 'addOrder',
-        component: AddOrder,
-        meta: {
-          title: '填写报修单'
-        }
-      }, {
-        path: 'orderList',
-        name: 'orderList',
-        component: OrderList,
-        meta: {
-          title: '报修单列表',
-          keepAlive: true
-        }
-      }, {
-        path: 'serviceList',
-        name: 'serviceList',
-        component: ServiceList,
-        meta: {
-          title: '维修单列表',
-          keepAlive: true
-        }
-      }, {
-        path: 'me',
-        name: 'me',
-        component: Me,
-        meta: {
-          title: '个人中心',
-          keepAlive: true
-        }
-      }]
-    }
+      }
+    }, {
+      path: '/serviceList',
+      name: 'serviceList',
+      component: ServiceList,
+      meta: {
+        title: '维修单列表',
+        keepAlive: true
+      }
+    }, {
+      path: '/me',
+      name: 'me',
+      component: Me,
+      meta: {
+        title: '个人中心'
+      }
+    }, {
+      path: '/passwardChange',
+      name: 'passwardChange',
+      component: PasswardChange,
+      meta: {
+        title: '修改密码'
+      }
+    },
+    {
+      path: '/', 
+      redirect: '/home' 
+  }
   ]
 })
 
