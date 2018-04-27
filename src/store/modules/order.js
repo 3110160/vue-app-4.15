@@ -1,9 +1,3 @@
-import http from './../../http'
-import Vue from 'vue'
-
-//type值 获取订单列表
-const GETORDERLIST = 'GETORDERLIST'
-
 const orderList = {
     state:{
         list:[],

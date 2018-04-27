@@ -40,7 +40,6 @@ export default {
           window.location.reload(
             location.href + "?time=" + new Date().getTime()
           );
-          localStorage.removeItem("wuzhishanlogin");
           this.$router.push({ path: "/login", replace: true });
         })
         .catch(e => {

@@ -46,10 +46,10 @@ export default {
       this.$http
         .post("/mall/v1/login", {
           jobNum: this.username,
-          password: this.password
+          password: this.password,
+          openid:this.$store.state.common.openid
         })
         .then(data => {
-          localStorage.setItem("wuzhishanlogin", "true");
           this.$router.push({ path: "/home", replace: true });
         })
         .catch(e => {

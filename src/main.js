@@ -7,15 +7,15 @@ import Http from './http'
 import './main.less'
 
 
-
 //scroller组件
 Vue.use(VueScroller)
 
 Vue.config.productionTip = false;
 
 //vux 全局组件注册
-import  { ToastPlugin,LoadingPlugin,ConfirmPlugin } from 'vux'
+import { ToastPlugin, LoadingPlugin, ConfirmPlugin, AlertPlugin } from 'vux'
 Vue.use(ToastPlugin)
+Vue.use(AlertPlugin)
 Vue.use(LoadingPlugin)
 Vue.use(ConfirmPlugin)
 

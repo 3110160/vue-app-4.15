@@ -47,7 +47,7 @@ export default {
         })
         .then(data => {
           this.files.push(item);
-          this.httpUrls.push(data);
+          this.httpUrls.push(data.result);
           this.$emit("upload", this.httpUrls);
         })
         .catch(e => {
@@ -132,7 +132,6 @@ export default {
 <style lang="less" scoped>
 .vue-uploader {
   display: inline-block;
-  margin-bottom: 20px;
   p.title {
     font-size: 0.24rem;
     color: #333333;
@@ -156,7 +155,7 @@ export default {
 .vue-uploader .file-list .file-item {
   float: left;
   position: relative;
-  width: 100px;
+  width: 90px;
   text-align: center;
 }
 .vue-uploader .file-list .file-item img {

@@ -1,14 +1,9 @@
 <template>
   <view-box class="serviceEnd">
-    <group title="上传照片(必填)">
+    <group title="上传照片(选填 最多添加4张)">
         <uploader 
-        :max="1"
-        title="维修前照片"
+        :max="4"
         @upload="upload"></uploader>
-        <uploader 
-        :max="1"
-        title="维修后照片"
-        @upload="upload2"></uploader>
     </group>
     <group title="其他描述(选填)">
       <x-textarea 
@@ -96,9 +91,6 @@ export default {
     upload(urls) {
       this.httpUrls = urls;
     },
-    upload2(urls) {
-      this.httpUrls2 = urls;
-    },
     add() {
       this.materials.push({
         name: "",
@@ -111,50 +103,8 @@ export default {
       this.materials.splice(index,1)
     },
     submit(){
-      if(!this.httpUrls.length){
-          this.$vux.toast.text('请上传维修前照片');
-          return;
-      }
-      if(!this.httpUrls2.length){
-          this.$vux.toast.text('请上传维修后照片');
-          return;
-      }
-     /*  for(let i=0;i<this.materials.length;i++){
-          if(this.materials[i].name===""){
-              this.$vux.toast.text(`请填写材料${i+1}的名称`);
-              this.isOk = false;
-              break;
-          }else{
-            this.isOk = true;
-          }
-          if(this.materials[i].price===""){
-              this.$vux.toast.text(`请填写材料${i+1}的单价`);
-              this.isOk = false;
-              break;
-          }else{
-            this.isOk = true;
-          }
-          if(this.materials[i].quantity===""){
-              this.$vux.toast.text(`请填写材料${i+1}的数量`);
-              this.isOk = false;
-              break;
-          }else{
-            this.isOk = true;
-          }
-          if(this.materials[i].total===""){
-              this.$vux.toast.text(`请填写材料${i+1}的总价`);
-              this.isOk = false;
-              break;
-          }else{
-            this.isOk = true;
-          }
-      }
-      if(!this.isOk){
-        return;
-      } */
       this.$http.post('/mall/v1/maintenance/repairFinish',{
-            startImg:this.httpUrls.join(''),
-            finishImg:this.httpUrls2.join(''),
+            image:this.httpUrls,
             id:this.$route.query.id,
             description:this.description,
             materials:this.materials
@@ -171,7 +121,6 @@ export default {
   beforeRouteEnter(t0, from, next) {
     next(vm => {
       vm.httpUrls=[],
-      vm.httpUrls2=[],
       //vm.isOk=true,
       vm.description='',
       vm.materials= [

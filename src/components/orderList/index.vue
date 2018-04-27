@@ -137,8 +137,9 @@ export default {
       }
     }
   },
+  //部分页面跳转过来 需要刷新列表
   beforeRouteEnter(to, from, next) {
-    if (from.path == "/addOrder") {
+    if (from.path == "/addOrder"||from.path == "/home") {
       next(vm => {
         vm.nodata = false;
         vm.pageNum = 1;

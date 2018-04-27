@@ -64,7 +64,6 @@ export default {
         })
         .then(data => {
           this.$vux.toast.text("修改成功");
-          localStorage.removeItem('wuzhishanlogin')
           this.$router.push({ path: "/login", replace: true });
         })
         .catch(e => {

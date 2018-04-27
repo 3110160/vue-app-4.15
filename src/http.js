@@ -4,9 +4,9 @@ import router from './router'
 //axios 配置
 const http = axios.create({
     //baseURL: 'http://10.0.0.181:9400',
-    //baseURL: 'http://10.0.0.244:9500',
+    baseURL: 'http://10.0.0.241:9600',
     //baseURL: 'http://10.0.0.60:9500',
-    baseURL: 'http://repairbkd.onccc.com',
+    //baseURL: 'http://repairbkd.onccc.com',
     timeout: 10000,
     withCredentials: true,
     headers: { 'content-type': 'application/json' }
@@ -18,7 +18,7 @@ http.interceptors.response.use(res => {
         return Promise.resolve(res.data)
     }else if(res.data.code === '800') {
         router.push({ path: '/login', replace: true })
-        return Promise.reject('会话失效')
+        return Promise.reject('请重新登陆')
     }else if(res.data.code === '401') {
         return Promise.reject(res.data.description || "出错了～")
     } else {
