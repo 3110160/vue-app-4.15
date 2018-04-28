@@ -29,7 +29,10 @@ const router = new Router({
     }, {
       path: '/blank',
       name: 'blank',
-      component: Blank
+      component: Blank,
+      meta:{
+        keepAlive: true
+      }
     },{
       path: '/addOrderOuter',
       name: 'addOrderOuter',

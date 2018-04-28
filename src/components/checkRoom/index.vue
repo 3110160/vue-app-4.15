@@ -67,7 +67,7 @@ export default {
     };
   },
   created() {
-    this.getTable(1);
+    //this.getTable(1);
     //jsdk设置
     if (navigator.userAgent.toLowerCase().indexOf("micromessenger") != -1) {
       setWxConfig();
@@ -110,7 +110,7 @@ export default {
           timer = setTimeout(() => {
             wxStopSearchBeacons();
             this.listening();
-          }, 10000);
+          }, 6000);
         });
     },
     //获取报表字段
