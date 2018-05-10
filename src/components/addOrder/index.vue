@@ -8,7 +8,7 @@
       placeholder-align="left"></x-input>
     </group>
 
-    <group title="维修项目(必选)">
+    <group title="维修项目(选填)">
     <checker
       class="checkbox"
       type="checkbox"
@@ -110,10 +110,6 @@ export default {
     submit() {
       if (this.declareAddress == "") {
         this.$vux.toast.text("请填写商铺地址");
-        return;
-      }
-      if (!this.projectIds.length) {
-        this.$vux.toast.text("请填选择维修项目");
         return;
       }
       this.$http

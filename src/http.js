@@ -14,7 +14,7 @@ const http = axios.create({
 });
 // 添加响应拦截器
 http.interceptors.response.use(res => {
-    console.log('res',res)
+    //console.log('res',res)
     Vue.$vux.loading.hide();
     if (res.data.code === '0') {
         return Promise.resolve(res.data)
@@ -22,7 +22,7 @@ http.interceptors.response.use(res => {
         return Promise.reject(res.data.description || "出错了～")
     }
 }, e => {
-    console.log('e',e.response)
+    //console.log('e',e.response)
     Vue.$vux.loading.hide();
     if(e.response.status === 800) {
         router.push({ path: '/login', replace: true })

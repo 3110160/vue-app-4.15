@@ -5,7 +5,7 @@
     ref="my_scroller">
     <div v-if="nodata" class="noData">
       <img width="50%" src="./img/nodata@2x.png" alt="/">
-      <p>没有新的申报单哦～</p>
+      <p>没有新的异常单哦～</p>
     </div>
       <div v-for="(item,index) in list" :key="index" class="box" @click="detail(item.id)">
         <div style="background-color: white;">
@@ -19,16 +19,13 @@
         <div class="roomNum"><span>报修房号：</span>{{item.declareAddress}}</div>
         <div class="content">
           <span class="left">报修内容：</span>
-          <span class="right">{{item.projectNames?item.projectNames:''}} {{item.declareContent?item.declareContent:''}}</span>
+          <span class="right">{{item.projectNames||''}} {{item.declareContent||''}}</span>
         </div>
+        <div class="roomNum"><span>异常原因：</span>{{item.repairStatus===1?'缺少材料':item.repairStatus===2?'不是我的':''}}</div>
         <div :class="item.status===4?'footer heighter':'footer'">
           <div class="tips">
-            <span>申报人：{{item.declarant ||'未登记'}}</span>
-            <span v-if="item.warnTime">预警时间：{{item.warnTime}}</span>
-            <span v-else>申请时间：{{item.declareDay+' '+item.declareTime}}</span>
-          </div>
-          <div class="btn" v-if="item.status===4">
-            <x-button mini type="primary" @click.native.stop="evaluation(item.id)">评价</x-button>
+            <span v-if="item.declarant">申报人：{{item.declarant||'未登记'}}</span>
+            <span>上报异常时间：{{item.abnormalTime}}</span>
           </div>
         </div>
       </div>
@@ -53,21 +50,21 @@ export default {
   },
   computed: {
     ...mapState({
-      list: state => state.order.list
+      list: state => state.order.abnormalList
     })
   },
   mounted() {
     this.$refs.my_scroller.resize();
     this.nodata = false;
     this.$http
-      .post("/mall/v1/currentUser/declarations", {
+      .post("/mall/v1/maintenances/abnormal", {
         pageNum: this.pageNum,
         pageSize: this.pageSize
       })
       .then(data => {
         if(data.result.list){
           this.pageNum++;
-          this.$store.commit("setList", data.result.list);
+          this.$store.commit("setAbnormalList", data.result.list);
         }else{
           this.nodata = true;
         }
@@ -82,11 +79,7 @@ export default {
   methods: {
     //详情
     detail(id) {
-      this.$router.push({ path: "/orderDetail", query: { id } });
-    },
-    //评价
-    evaluation(id) {
-      this.$router.push({ path: "/serviceEvaluation", query: { id } });
+      this.$router.push({ path: "/abnormalDetail", query: { id } });
     },
     infinite(done) {
       if (this.list.length < this.pageSize) {
@@ -94,14 +87,14 @@ export default {
         return;
       }
       this.$http
-        .post("/mall/v1/currentUser/declarations", {
+        .post("/mall/v1/maintenances/abnormal", {
           pageNum: this.pageNum,
           pageSize: this.pageSize
         })
         .then(data => {
           done(true);
           data.result.list && this.pageNum++;
-          this.$store.commit("setList", [
+          this.$store.commit("setAbnormalList", [
             ...this.list,
             ...(data.result.list || [])
           ]);
@@ -116,58 +109,40 @@ export default {
       switch (status) {
         case 0:
           return {
-            t:"待受理",
-            c:'#f37f7f'
-          }
-          break;
-        case 1:
-          return {
             t:"待签发",
             c:'#f37f7f'
           };
           break;
-        case 2:
+        case 1:
           return {
             t:"待维修",
             c:'#f1ae91'
           };
           break;
-        case 3:
+        case 2:
           return {
             t:"维修中",
             c:'#ead28a'
           };
           break;
-        case 4:
+        case 3:
           return {
             t:"已完成",
             c:'#aad89c'
           };
-          break;
-        case 98:
-          return {
-            t:"已回访",
-            c:'#aad89c'
-          };
-          break;
-        case 99:
-          return {
-            t:"已评价",
-            c:'#aad89c'
-          };
-          break;
+          break;        
       }
-    }
+    },
   },
   //部分页面跳转过来 需要刷新列表
   beforeRouteEnter(to, from, next) {
-    if (from.path == "/addOrder"||from.path == "/home") {
+    if (from.path == "/home") {
       next(vm => {
         vm.nodata = false;
         vm.pageNum = 1;
         vm.$refs.my_scroller.scrollTo(0, 0);
         vm.$http
-          .post("/mall/v1/currentUser/declarations", {
+          .post("/mall/v1/maintenances/abnormal", {
             pageNum: 1,
             pageSize: vm.pageSize
           })
@@ -177,7 +152,7 @@ export default {
             }else{
               vm.nodata = true;
             }
-            vm.$store.commit("setList", data.result.list || []);
+            vm.$store.commit("setAbnormalList", data.result.list || []);
           })
           .catch(e => {
             e&&vm.$vux.toast.text(e);

@@ -1,5 +1,5 @@
 <template>
-  <view-box class="check" ref="viewBox">
+  <view-box class="check" ref="viewBox" v-if="formList.length">
       <div class="block" v-for="(item,index) in formList" :key="index">
         <cell
         :title="`${item.equipmentRoomName}`"
@@ -20,11 +20,15 @@
           v-model="item.remark"></x-textarea>
       </div>
       </div>
+      <x-button 
+        class="btn"
+        @click.native="submit" 
+        type="primary">提交</x-button>
   </view-box>
 </template>
 
 <script>
-import { ViewBox, Group, Cell, XInput, XTextarea } from "vux";
+import { ViewBox, Group, Cell, XInput, XTextarea,XButton } from "vux";
 import {
   wxStartSearchBeacons,
   wxOnSearchBeacons,
@@ -35,13 +39,14 @@ import { fail, throws } from "assert";
 import { setTimeout, clearTimeout } from "timers";
 var timer;
 export default {
-  name: "me",
+  name: "checkRoom",
   components: {
     ViewBox,
     Group,
     XTextarea,
     XInput,
-    Cell
+    Cell,
+    XButton
   },
   data() {
     return {
@@ -67,7 +72,16 @@ export default {
     };
   },
   created() {
-    //this.getTable(1);
+    this.getTable([
+      {
+        accuracy: "0.404806",
+        major: 10170,
+        minor: 34438,
+        proximity: "2",
+        rssi: "-51",
+        uuid: "FDA50693-A4E2-4FB1-AFCF-C6EB07647825"
+      }
+    ]);
     //jsdk设置
     if (navigator.userAgent.toLowerCase().indexOf("micromessenger") != -1) {
       setWxConfig();
@@ -89,6 +103,8 @@ export default {
             .then(result => {
               console.log("wxOnSearchBeacons");
               if (result && result.length) {
+                //http 请求当前巡检间的表格
+                this.getTable(result);
                 console.log(result);
                 wxStopSearchBeacons();
                 //清除定时器
@@ -114,16 +130,43 @@ export default {
         });
     },
     //获取报表字段
-    getTable(id) {
+    getTable(bluetooths) {
       this.$http
-        .get(`/mall/v1/inspectionRoom/${id}`)
+        .post(`/mall/v1/inspectionRoom/tableStructure`, {
+          bluetooths
+        })
         .then(data => {
           this.formList = data.result;
         })
         .catch(e => {
           this.$vux.toast.text(e);
         });
+    },
+    //提交表单
+    submit(){
+      let list = this.formList;
+      list.map(item=>{
+        if(item.list){
+          item.details = item.list;
+          item.details.map(i=>{
+            i.reportSettings = i.id;
+            i.value = i.value || '';
+          })
+        }
+      })
+      this.$http
+        .post(`/mall/v1/reportRecord`, {
+          list
+        })
+        .then(data => {
+          this.$vux.toast.text('提交成功');
+          this.$router.push({path:'/home',replace:true})
+        })
+        .catch(e => {
+          this.$vux.toast.text(e);
+        });
     }
+
   },
   destroyed() {
     console.log("destroyed");

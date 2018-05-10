@@ -47,7 +47,7 @@ export default {
         .post("/mall/v1/login", {
           jobNum: this.username,
           password: this.password,
-          openId:this.$store.state.common.openid
+          openId:this.$store.state.common.openid || 1234564
         })
         .then(data => {
           this.$router.push({ path: "/home", replace: true });

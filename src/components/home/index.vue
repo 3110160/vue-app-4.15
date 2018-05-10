@@ -36,14 +36,18 @@ export default {
         path:'/serviceList',
         src:require('./img/wxd.png')
       },{
+        label:'异常单列表',
+        path:'/abnormalList',
+        src:require('./img/ycd.png')
+      },{
         label:'个人中心',
         path:'/me',
         src:require('./img/me.png')
-      },{
+      }/* ,{
         label:'巡检查房',
         path:'/checkRoom',
         src:require('./img/xjf.png')
-      }]
+      } */]
     }
   },
 };

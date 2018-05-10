@@ -1,7 +1,8 @@
 const orderList = {
     state:{
         list:[],
-        serviceList:[]
+        serviceList:[],
+        abnormalList:[]
     },
     mutations:{
         //申报单列表
@@ -41,7 +42,19 @@ const orderList = {
                 }
             })
             state.serviceList = p;
-        }
+        },
+        //无法维修修改状态
+        deleteOrder(state,{id,repairStatus}){
+            state.serviceList.map((item,index)=>{
+                if(item.id === id){
+                    item.repairStatus = repairStatus
+                }
+            })
+        },
+        //异常单列表
+        setAbnormalList(state,list){
+            state.abnormalList = list;
+        },
     },
     actions:{
     

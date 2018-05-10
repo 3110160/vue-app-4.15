@@ -13,10 +13,10 @@
     <div class="roomNum"><span>报修房号：</span>{{detail.declareAddress}}</div>
     <div class="content">
       <span class="left">报修内容：</span>
-      <span class="right">{{detail.projectNames?detail.projectNames:''}} {{detail.declareContent?detail.declareContent:''}}</span>
+      <span class="right">{{detail.projectNames||''}} {{detail.declareContent||''}}</span>
     </div>
+    <div class="roomNum"><span>异常原因：</span>{{detail.repairStatus===1?'缺少材料':detail.repairStatus===2?'不是我的':''}}</div>
     </div>
-  
     <group title="完成节点及时间">
       <flow>
         <flow-state  title="用户上报" :is-done="getStatus(detail.status,[0,1,2,3,4,98,99])"></flow-state>
@@ -66,18 +66,18 @@ export default {
   activated() {
     let id = this.$route.query.id;
     this.$http
-      .get(`/mall/v1/wechat/declaration/${id}`)
+      .get(`/mall/v1/maintenance/abnormal/${id}`)
       .then(data => {
         this.detail = data.result;
-        this.detail.details.reverse()
       })
       .catch(e => {
         this.$vux.toast.text(e);
       });
   },
+  //计算属性默认只有 getter 
   computed:{
     height(){
-        return this.detail.details&&this.detail.details.length*90+'px'
+        return this.detail.details.length*90+'px'
     }
   },
   methods:{

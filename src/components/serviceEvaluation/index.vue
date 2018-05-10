@@ -1,7 +1,7 @@
 <template>
   <view-box class="serviceEvaluation">
 
-  <group title="维修人员态度:">
+  <group title="维修人员态度(必填)">
     <checker
       class="checkbox"
       v-model="value1"
@@ -14,7 +14,7 @@
     </checker>
   </group>
 
-  <group title="维修及时情况:">
+  <group title="维修及时情况(必填)">
     <checker
       class="checkbox"
       v-model="value2"
@@ -40,7 +40,7 @@
     </checker>
   </group>
  -->
-  <group title="满意度:">
+  <group title="满意度(必填)">
     <checker
       class="checkbox"
       v-model="value4"
@@ -53,7 +53,7 @@
     </checker>
   </group>
 
-  <group title="其他:">
+  <group title="其他(选填)">
     <x-textarea 
     :max="120"
     v-model="suggest" 
@@ -157,6 +157,10 @@ export default {
   },
   methods: {
     submit() {
+      if(this.value1===''||this.value4===''||this.value2===''){
+        this.$vux.toast.text('前三项必选');
+        return;
+      }
       this.$http
         .post("/mall/v1/evaluation/appraise", {
           declarationId: this.$route.query.id,
@@ -170,7 +174,6 @@ export default {
           this.$router.go(-1);
         })
         .catch(e => {
-          done(true);
           this.$vux.toast.text(e);
         });
     }
