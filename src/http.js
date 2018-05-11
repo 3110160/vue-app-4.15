@@ -3,10 +3,9 @@ import Vue from 'vue'
 import router from './router'
 //axios 配置
 const http = axios.create({
-    baseURL: 'http://10.0.0.181:9400',
+    //baseURL: 'http://10.0.0.181:9400',
     //baseURL: 'http://10.0.0.241:9500',
-    //baseURL: 'http://10.0.0.60:9500',
-    //baseURL: 'http://repairbkd.onccc.com',
+    baseURL: 'http://repairbkd.onccc.com',
     //baseURL: 'http://testbkd.ranqichina.com',
     timeout: 10000,
     withCredentials: true,
@@ -26,7 +25,7 @@ http.interceptors.response.use(res => {
     Vue.$vux.loading.hide();
     if(e.response.status === 800) {
         router.push({ path: '/login', replace: true })
-        return Promise.reject('请重新登陆')
+        return Promise.reject('请重新登录')
     }else if(e.response.status === 401) {
         return Promise.reject("暂无权限")
     }

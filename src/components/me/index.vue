@@ -4,7 +4,7 @@
       <cell title="修改密码" :link="{path:'/passwardChange'}" is-link></cell>     
     </group>
     <group>
-      <cell title="退出登陆" @click.native="showConfirm" is-link></cell>     
+      <cell title="退出登录" @click.native="showConfirm" is-link></cell>     
     </group>
   </view-box>
 </template>
@@ -23,7 +23,7 @@ export default {
     showConfirm() {
       let that = this;
       this.$vux.confirm.show({
-        content:'退出登陆吗？',
+        content:'退出登录吗？',
         onCancel() {
           that.$vux.confirm.hide();
         },

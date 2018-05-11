@@ -16,7 +16,7 @@
     <x-button 
     class="btn"
     @click.native="submit" 
-    type="primary">登陆</x-button>
+    type="primary">登录</x-button>
   </div>
 </template>
 
@@ -47,7 +47,7 @@ export default {
         .post("/mall/v1/login", {
           jobNum: this.username,
           password: this.password,
-          openId:this.$store.state.common.openid || 1234564
+          openId:this.$store.state.common.openid
         })
         .then(data => {
           this.$router.push({ path: "/home", replace: true });

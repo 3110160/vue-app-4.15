@@ -26,7 +26,7 @@ const router = new Router({
       name: 'login',
       component: Login,
       meta: {
-        title: '登陆'
+        title: '登录'
       }
     }, {
       path: '/blank',
@@ -142,7 +142,7 @@ const router = new Router({
   ]
 })
 
-//过滤登陆态
+//过滤登录态
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title

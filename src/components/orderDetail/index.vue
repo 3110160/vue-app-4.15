@@ -33,7 +33,7 @@
         <template v-for="(item,index) in detail.details">
           <flow-line v-if="index>0" is-done :key="index"></flow-line>
           <div class="box" :key="index+'~'">
-            <span style="width:116px">{{item.time}}
+            <span class="time">{{item.time}}
               <br>{{item.day}}
             </span>
             <span class="content">{{item.message}}</span>
