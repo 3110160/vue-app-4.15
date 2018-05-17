@@ -9,29 +9,28 @@
     </group>
 
     <group title="维修项目(必选)">
-    <checker
-      class="checkbox"
-      type="checkbox"
-      v-model="projectIds"
-      default-item-class="checkItem"
-      selected-item-class="checkItemSelected"
-    >
-    <checker-item 
-      v-for="(item,index) in commonList" 
-      :key="index" :value="item.id">{{item.name}}</checker-item>
-    </checker>
+      <checker
+        class="checkbox"
+        type="checkbox"
+        v-model="projectIds"
+        default-item-class="checkItem"
+        selected-item-class="checkItemSelected"
+      >
+      <checker-item 
+        v-for="(item,index) in commonList" 
+        :key="index" :value="item.id">{{item.name}}</checker-item>
+      </checker>
+      <x-textarea 
+        :max="120"
+        v-model="declareContent"
+        placeholder="上方无可选项、需要补充说明的，均在此填写"></x-textarea>
     </group>
     <group title="上传照片(选填)">
         <uploader 
         :max="1"
+        style="margin-left:8px"
         title="故障照片"
         @upload="upload"></uploader>
-    </group>
-    <group title="其他(选填)">
-      <x-textarea 
-      :max="120"
-      v-model="declareContent"
-      placeholder="其他维修原因"></x-textarea>
     </group>
     <group title="联系人(必填)">
       <x-input 
@@ -117,8 +116,8 @@ export default {
         this.$vux.toast.text("请填写商铺地址");
         return;
       }
-      if (!this.projectIds.length) {
-        this.$vux.toast.text("请填选择维修项目");
+      if (!this.projectIds.length&&this.declareContent ==='') {
+        this.$vux.toast.text("请选择或填写维修内容");
         return;
       }
       if (this.declarant == "") {

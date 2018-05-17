@@ -43,11 +43,11 @@ export default {
         label:'个人中心',
         path:'/me',
         src:require('./img/me.png')
-      }/* ,{
+      },{
         label:'巡检查房',
         path:'/checkRoom',
         src:require('./img/xjf.png')
-      } */]
+      }]
     }
   },
 };

@@ -1,15 +1,15 @@
 const common = {
-    state:{
-        openid:''
+    state: {
+        openid: ''
     },
-    mutations:{
+    mutations: {
         //申报单列表
-        setOpenid(state,openid){
+        setOpenid(state, openid) {
             state.openid = openid;
         },
     },
-    actions:{
-    
+    actions: {
+
     }
 }
 

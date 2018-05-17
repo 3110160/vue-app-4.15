@@ -11,11 +11,16 @@ npm run dev
 # build for production with minification
 npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
+#ui框架
+vux
 
-#使用vux UI库 一个公众h5项目，比较完善的vue搭建  by --xzc
+#svn地址
+https://xzc@10.0.0.250/svn/yiwu-mall/wx-wuzhishan
 
-https://3110160.github.io/vue-app-4.15/dist/index.html
+#发布地址 账号 jenkins 密码 jenkins@pamo.2017
+http://116.62.124.118:8108/jenkins/job/wx-wuzhishan/
 
+#主要是巡检部分 加 上次的部分优化
+
+#有问题 QQ 交流
 ```

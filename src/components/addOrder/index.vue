@@ -8,30 +8,29 @@
       placeholder-align="left"></x-input>
     </group>
 
-    <group title="维修项目(选填)">
-    <checker
-      class="checkbox"
-      type="checkbox"
-      v-model="projectIds"
-      default-item-class="checkItem"
-      selected-item-class="checkItemSelected"
-    >
-    <checker-item 
-      v-for="(item,index) in commonList" 
-      :key="index" :value="item.id">{{item.name}}</checker-item>
-    </checker>
+    <group title="维修项目(必填)">
+      <checker
+        class="checkbox"
+        type="checkbox"
+        v-model="projectIds"
+        default-item-class="checkItem"
+        selected-item-class="checkItemSelected"
+      >
+      <checker-item 
+        v-for="(item,index) in commonList" 
+        :key="index" :value="item.id">{{item.name}}</checker-item>
+      </checker>
+      <x-textarea 
+        :max="120"
+        v-model="declareContent"
+        placeholder="上方无可选项、需要补充说明的，均在此填写"></x-textarea>
     </group>
     <group title="上传照片(选填)">
-        <uploader 
+        <uploader
+        style="margin-left:8px" 
         :max="1"
         title="故障照片"
         @upload="upload"></uploader>
-    </group>
-    <group title="其他(选填)">
-      <x-textarea 
-      :max="120"
-      v-model="declareContent"
-      placeholder="其他维修原因"></x-textarea>
     </group>
     <!-- <group title="联系人:">
       <x-input 
@@ -112,16 +111,20 @@ export default {
         this.$vux.toast.text("请填写商铺地址");
         return;
       }
+      if (!this.projectIds.length&&this.declareContent ==='') {
+        this.$vux.toast.text("请选择或填写维修内容");
+        return;
+      }
       this.$http
         .post("/mall/v1/declaration/internal", {
           declareAddress: this.declareAddress,
           declareContent: this.declareContent,
-          picture: this.httpUrls.join(''),
-          projectIds: this.projectIds.join(',')
+          picture: this.httpUrls.join(""),
+          projectIds: this.projectIds.join(",")
         })
         .then(data => {
           this.$vux.toast.text("提交成功");
-          this.$router.push({path:'/orderList',repalce:true})
+          this.$router.push({ path: "/orderList", repalce: true });
         })
         .catch(e => {
           this.$vux.toast.text(e);
