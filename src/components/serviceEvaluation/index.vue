@@ -174,7 +174,7 @@ export default {
           this.$router.go(-1);
         })
         .catch(e => {
-          this.$vux.toast.text(e);
+          e&&this.$vux.toast.text(e);
         });
     }
   },

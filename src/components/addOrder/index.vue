@@ -1,11 +1,23 @@
 <template>
   <div class="addOrder">
     <group title="维修地点(必填)">
-      <x-input
-      placeholder="请输入商位号" 
-      v-model="declareAddress"
-      :show-clear="false" 
-      placeholder-align="left"></x-input>
+      <div class="left">
+        <popup-picker 
+          title="请选择前缀"
+          v-model="prefixId"
+          show-name 
+          :data="prefixList" 
+          placeholder="请选择前缀"></popup-picker>
+      </div>
+      <div>
+        <x-input
+          title="请输入商位号"
+          placeholder="请输入商位号" 
+          v-model="declareAddress"
+          :show-clear="false"
+          text-align='right'
+          placeholder-align="right"></x-input>
+      </div>
     </group>
 
     <group title="维修项目(必填)">
@@ -32,20 +44,7 @@
         title="故障照片"
         @upload="upload"></uploader>
     </group>
-    <!-- <group title="联系人:">
-      <x-input 
-      placeholder="请输入联系人" 
-      novalidate
-      :show-clear="false" 
-      placeholder-align="left"></x-input>
-    </group>
-    <group title="联系方式:">
-      <x-input 
-      placeholder="请输入联系方式" 
-      novalidate
-      :show-clear="false" 
-      placeholder-align="left"></x-input>
-    </group> -->
+
     <x-button 
     class="btn"
     @click.native="submit" 
@@ -62,7 +61,8 @@ import {
   XTextarea,
   Checklist,
   Checker,
-  CheckerItem
+  CheckerItem,
+  PopupPicker
 } from "vux";
 export default {
   name: "AddOrder",
@@ -72,6 +72,7 @@ export default {
     XButton,
     XTextarea,
     Checklist,
+    PopupPicker,
     Checker,
     CheckerItem,
     Uploader
@@ -82,10 +83,16 @@ export default {
       commonList: [],
       httpUrls: [],
       declareAddress: "",
-      declareContent: ""
+      declareContent: "",
+      prefixList: [[{
+        name: '无',
+        value: ''
+      }]],
+      prefixId: []
     };
   },
   methods: {
+    //选择项目id
     change(value) {
       this.projectIds = value;
     },
@@ -102,16 +109,33 @@ export default {
           this.commonList = data.result;
         })
         .catch(e => {
-          this.$vux.toast.text(e);
+          e&&this.$vux.toast.text(e);
         });
     },
-
+    //获取 前缀
+    getPrefix(){
+      this.$http
+        .post("/mall/v1/combo/prefixManagers",{
+          buildingCode:''
+        })
+        .then(data => {
+          data.result.map(item=>{
+            item.name = item.prefixName;
+            item.value = `${item.id}`;
+          })
+          this.$set(this.prefixList,0,this.prefixList[0].concat(data.result))
+          //this.prefixList[0] = data.result;
+        })
+        .catch(e => {
+          e&&this.$vux.toast.text(e);
+        });
+    },
     submit() {
       if (this.declareAddress == "") {
         this.$vux.toast.text("请填写商铺地址");
         return;
       }
-      if (!this.projectIds.length&&this.declareContent ==='') {
+      if (!this.projectIds.length && this.declareContent === "") {
         this.$vux.toast.text("请选择或填写维修内容");
         return;
       }
@@ -120,19 +144,21 @@ export default {
           declareAddress: this.declareAddress,
           declareContent: this.declareContent,
           picture: this.httpUrls.join(""),
-          projectIds: this.projectIds.join(",")
+          projectIds: this.projectIds.join(","),
+          prefixId:this.prefixId[0] || ''
         })
         .then(data => {
           this.$vux.toast.text("提交成功");
           this.$router.push({ path: "/orderList", repalce: true });
         })
         .catch(e => {
-          this.$vux.toast.text(e);
+          e&&this.$vux.toast.text(e);
         });
     }
   },
   created() {
     this.getTypes();
+    this.getPrefix();
   }
 };
 </script>

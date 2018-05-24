@@ -17,7 +17,7 @@ export default {
         this.$router.push({path:'/home',replace:true})
       })
       .catch(e => {
-        this.$vux.toast.text(e);
+        e&&this.$vux.toast.text(e);
       });
   },
   beforeRouteEnter(t0, from, next) {

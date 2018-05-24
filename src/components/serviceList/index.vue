@@ -16,12 +16,15 @@
           <div class="right" :style='`color:${getStauts(item.status).c}`'>{{getStauts(item.status).t}}</div>
         </div>
         </div>
-        <div class="roomNum"><span>报修房号：</span>{{item.declareAddress}}</div>
-        <div class="content">
-          <span class="left">报修内容：</span>
-          <span class="right">{{item.projectNames?item.projectNames:''}} {{item.declareContent?item.declareContent:''}}</span>
-        </div>
+        <div class="contbox">
+          <div class="roomNum"><span>报修房号：</span>{{item.prefixName || ''}} {{item.declareAddress}}</div>
+            <div class="content">
+              <span class="left">报修内容：</span>
+              <span class="right">{{item.projectNames?item.projectNames:''}} {{item.declareContent?item.declareContent:''}}</span>
+          </div>
         <div class="roomNum" v-if="item.repairStatus!==0"><span>异常原因：</span>{{item.repairStatus===1?'缺少材料':item.repairStatus===2?'不是我的':''}}</div>
+        </div>
+        
         <div class="footer">
           <div class="tips">
             <span>申报人：{{item.declarant ||'未登记'}}</span>
@@ -134,7 +137,7 @@ export default {
           this.$store.commit("repairStart", id);
         })
         .catch(e => {
-          this.$vux.toast.text(e);
+          e&&this.$vux.toast.text(e);
         });
     },
     //结束维修
@@ -211,7 +214,7 @@ export default {
           this.showPopup = false;
         })
         .catch(e => {
-          this.$vux.toast.text(e);
+          e&&this.$vux.toast.text(e);
         });
     }
   },

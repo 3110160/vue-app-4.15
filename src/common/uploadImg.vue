@@ -51,7 +51,7 @@ export default {
           this.$emit("upload", this.httpUrls);
         })
         .catch(e => {
-          this.$vux.toast.text(e);
+          e&&this.$vux.toast.text(e);
         });
     },
     remove(index) {
@@ -78,7 +78,7 @@ export default {
               this.upload(item);
             })
             .catch(e => {
-              this.$vux.toast.text(e);
+              e&&this.$vux.toast.text(e);
             });
         }
       }

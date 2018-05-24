@@ -113,7 +113,7 @@ export default {
           this.$vux.toast.text('上传成功');
           this.$router.go(-1)
       }).catch(e => {
-          this.$vux.toast.text(e);
+          e&&this.$vux.toast.text(e);
         });
     }
   },

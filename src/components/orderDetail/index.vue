@@ -10,7 +10,7 @@
         </div>
     </div>
       </div>
-    <div class="roomNum"><span>报修房号：</span>{{detail.declareAddress}}</div>
+    <div class="roomNum"><span>报修房号：</span>{{detail.prefixName || ''}} {{detail.declareAddress}}</div>
     <div class="content">
       <span class="left">报修内容：</span>
       <span class="right">{{detail.projectNames?detail.projectNames:''}} {{detail.declareContent?detail.declareContent:''}}</span>
@@ -72,7 +72,7 @@ export default {
         this.detail.details.reverse()
       })
       .catch(e => {
-        this.$vux.toast.text(e);
+        e&&this.$vux.toast.text(e);
       });
   },
   computed:{

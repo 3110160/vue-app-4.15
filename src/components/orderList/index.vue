@@ -16,7 +16,7 @@
           <div class="right" :style='`color:${getStauts(item.status).c}`'>{{getStauts(item.status).t}}</div>
         </div>
         </div>
-        <div class="roomNum"><span>报修房号：</span>{{item.declareAddress}}</div>
+        <div class="roomNum"><span>报修房号：</span>{{item.prefixName || ''}} {{item.declareAddress}}</div>
         <div class="content">
           <span class="left">报修内容：</span>
           <span class="right">{{item.projectNames?item.projectNames:''}} {{item.declareContent?item.declareContent:''}}</span>
@@ -108,7 +108,7 @@ export default {
         })
         .catch(e => {
           done(true);
-          this.$vux.toast.text(e);
+          e&&this.$vux.toast.text(e);
         });
     },
     //获取状态

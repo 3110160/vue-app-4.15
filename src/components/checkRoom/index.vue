@@ -114,7 +114,7 @@ export default {
               }
             })
             .catch(e => {
-              this.$vux.toast.text(e);
+              e&&this.$vux.toast.text(e);
             });
         })
         .catch(e => {
@@ -139,7 +139,7 @@ export default {
           this.formList = data.result;
         })
         .catch(e => {
-          this.$vux.toast.text(e);
+          e&&this.$vux.toast.text(e);
         });
     },
     //提交表单
@@ -163,7 +163,7 @@ export default {
           this.$router.push({path:'/home',replace:true})
         })
         .catch(e => {
-          this.$vux.toast.text(e);
+          e&&this.$vux.toast.text(e);
         });
     }
 

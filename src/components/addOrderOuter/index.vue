@@ -1,11 +1,23 @@
 <template>
   <div class="addOrder">
     <group title="维修地点(必填)">
-      <x-input
-      placeholder="请输入商位号" 
-      v-model="declareAddress"
-      :show-clear="false" 
-      placeholder-align="left"></x-input>
+      <div class="left">
+        <popup-picker 
+          title="请选择前缀"
+          v-model="prefixId"
+          show-name 
+          :data="prefixList" 
+          placeholder="请选择前缀"></popup-picker>
+      </div>
+      <div>
+        <x-input
+          title="请输入商位号"
+          text-align='right'
+          placeholder="请输入商位号" 
+          v-model="declareAddress"
+          :show-clear="false" 
+          placeholder-align="right"></x-input>
+      </div>
     </group>
 
     <group title="维修项目(必选)">
@@ -63,6 +75,7 @@ import {
   XButton,
   XTextarea,
   Checklist,
+  PopupPicker,
   Checker,
   CheckerItem
 } from "vux";
@@ -74,6 +87,7 @@ export default {
     Group,
     XButton,
     XTextarea,
+    PopupPicker,
     Checklist,
     Checker,
     CheckerItem,
@@ -87,7 +101,12 @@ export default {
       declareAddress: "",
       contact: "",
       declarant: "",
-      declareContent: ""
+      declareContent: "",
+      prefixList: [[{
+        name: '无',
+        value: ''
+      }]],
+      prefixId: []
     };
   },
   methods: {
@@ -96,6 +115,24 @@ export default {
     },
     upload(urls) {
       this.httpUrls = urls;
+    },
+    //获取前缀
+    getPrefix(){
+      this.$http
+        .post("/mall/v1/combo/prefixManagers",{
+          buildingCode: this.$route.query.code || ''
+        })
+        .then(data => {
+          data.result.map(item=>{
+            item.name = item.prefixName;
+            item.value = `${item.id}`;
+          })
+          this.$set(this.prefixList,0,this.prefixList[0].concat(data.result))
+          //this.prefixList[0] = data.result;
+        })
+        .catch(e => {
+          e&&this.$vux.toast.text(e);
+        });
     },
     //todo 获取维修项目
     getTypes() {
@@ -107,7 +144,7 @@ export default {
           this.commonList = data.result;
         })
         .catch(e => {
-          this.$vux.toast.text(e);
+          e&&this.$vux.toast.text(e);
         });
     },
 
@@ -153,6 +190,7 @@ export default {
   },
   created() {
     this.getTypes();
+    this.getPrefix();
   }
 };
 </script>

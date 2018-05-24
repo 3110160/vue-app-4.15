@@ -37,13 +37,13 @@ export default {
         .get("/mall/v1/logout")
         .then(data => {
           this.$vux.toast.text("退出成功");
+          this.$router.push({ path: "/login", replace: true });
           window.location.reload(
             location.href + "?time=" + new Date().getTime()
           );
-          this.$router.push({ path: "/login", replace: true });
         })
         .catch(e => {
-          this.$vux.toast.text(e);
+          e&&this.$vux.toast.text(e);
         });
     }
   }
